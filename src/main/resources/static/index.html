@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistematización Educación Inclusiva</title>
+    <!-- Favicons -->
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link href="output.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <header class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white py-20 shadow-lg">
+        <div class="max-w-5xl mx-auto text-center px-6">
+            <img src="logo.png" alt="Logo" class="mx-auto mb-8 h-40 md:h-52 drop-shadow-2xl">
+
+
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Educación Inclusiva: Transformando realidades en las aulas
+                de Colombia</h1>
+            <p class="text-lg md:text-xl opacity-90 mb-6">
+                Sistematización de experiencias docentes que promueven equidad, acceso y permanencia para todos los
+                estudiantes.
+            </p>
+            <a href="#anexos"
+                class="bg-yellow-400 text-gray-900 font-semibold px-6 py-3 rounded-lg shadow hover:bg-yellow-500 transition">Accede
+                a los anexos</a>
+        </div>
+    </header>
+
+    <!-- Intro Section -->
+    <section class="max-w-4xl mx-auto px-6 py-12 text-center">
+        <p class="text-lg text-gray-700 leading-relaxed">
+            La exclusión histórica por género, clase y discapacidad sigue siendo un reto. La educación inclusiva es un
+            derecho y un compromiso ético y social. Este proyecto sistematiza las vivencias de docentes y estudiantes en
+            contextos diversos, mostrando cómo la inclusión educativa no es solo una política, sino una práctica diaria
+            que transforma vidas y comunidades.
+        </p>
+    </section>
+
+    <!-- Insights -->
+    <section class="bg-gray-100 py-16">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-10">Principales hallazgos</h2> 
+            <!-- Aquí se inyectarán los botones -->
+            <div id="findings-container" class="grid md:grid-cols-4 gap-8 text-center"></div>
+        </div>
+    </section>
+    
+    <!-- Aquí se inyectarán los modales dinámicos -->
+    <div id="modals-container"></div>
+
+    <!-- Experiences with Timelines -->
+    <section class="max-w-6xl mx-auto px-6 py-16">
+        <h2 class="text-3xl font-bold text-center mb-12">Experiencias destacadas</h2>
+
+        <!-- Placeholder to be filled by JS -->
+        <div id="timeline-container" class="grid md:grid-cols-2 gap-12"></div>
+    </section>
+
+
+    <!-- Testimonials Carousel -->
+    <section class="bg-blue-50 py-16">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold mb-10">🎤 Voces Docentes</h2>
+
+            <!-- Carousel Wrapper -->
+            <div class="relative overflow-hidden">
+                <!-- Slides Container -->
+                <div id="carousel" class="flex transition-transform duration-700 ease-in-out">
+                    <!-- Slides auto-generadas -->
+                </div>
+
+                <!-- Controls -->
+                <button id="prev"
+                    class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white shadow rounded-full p-2 hover:bg-gray-200">
+                    ◀
+                </button>
+                <button id="next"
+                    class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white shadow rounded-full p-2 hover:bg-gray-200">
+                    ▶
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CTA -->
+    <section class="bg-gray-50 py-16" id="anexos">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-4">📑 Anexos de la Investigación</h2>
+            <p class="text-center text-gray-600 mb-12">
+                Materiales complementarios que recogen entrevistas, matrices, registros y evidencias de la
+                sistematización.
+            </p>
+
+            <div id="appendices-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 text-center py-6">
+        <p class="text-sm">© 2025 Sistematización Educación Inclusiva. Todos los derechos reservados.</p>
+        <p class="text-xs mt-2">Referencias: UNESCO (2005) · MEN (2017) · Declaración de Salamanca (1994)</p>
+    </footer>
+
+    <!-- Modal Galería Visual -->
+    <div id="galleryModal" class="fixed inset-0 bg-black bg-opacity-70 hidden flex items-center justify-center z-50">
+        <div class="relative bg-white rounded-lg shadow-lg w-11/12 md:w-3/4 lg:w-2/3 max-h-[90vh] overflow-hidden">
+
+            <!-- Header -->
+            <div class="flex justify-between items-center p-4 border-b">
+                <h2 class="text-xl font-bold">🖼️ Galería Visual</h2>
+                <button id="closeGallery" class="text-gray-600 hover:text-gray-900 text-2xl">&times;</button>
+            </div>
+
+            <!-- Carousel Container -->
+            <div class="relative overflow-hidden">
+                <div id="galleryCarousel" class="flex transition-transform duration-700 ease-in-out">
+                    <!-- Imágenes auto-generadas -->
+                </div>
+
+                <!-- Controls -->
+                <button id="prevGallery"
+                    class="absolute top-1/2 left-3 transform -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-gray-200">◀</button>
+                <button id="nextGallery"
+                    class="absolute top-1/2 right-3 transform -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-gray-200">▶</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>

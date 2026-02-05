@@ -1,0 +1,702 @@
+---
+description: Backend development standards, best practices, and conventions for the Spring Boot application including Domain-Driven Design, SOLID principles, architecture patterns, API design, and testing practices
+globs: ["src/main/java/**/*.java", "src/test/java/**/*.java", "build.gradle", "src/main/resources/**/*.yaml", "src/main/resources/db/migration/**/*.sql"]
+alwaysApply: true
+---
+
+# Backend Project Standards and Best Practices
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Technology Stack](#technology-stack)
+- [Architecture Overview](#architecture-overview)
+- [Domain-Driven Design Principles](#domain-driven-design-principles)
+- [SOLID and DRY Principles](#solid-and-dry-principles)
+- [Coding Standards](#coding-standards)
+- [API Design Standards](#api-design-standards)
+- [Database Patterns](#database-patterns)
+- [Testing Standards](#testing-standards)
+- [Performance Best Practices](#performance-best-practices)
+- [Security Best Practices](#security-best-practices)
+- [Development Workflow](#development-workflow)
+
+---
+
+## Overview
+
+This document outlines the best practices, conventions, and standards used in the Spring Boot backend application. The backend follows Domain-Driven Design (DDD) principles and implements a layered architecture to ensure code consistency, maintainability, and scalability.
+
+## Technology Stack
+
+### Core Technologies
+- **Java 21**: Modern Java with latest language features
+- **Spring Boot 3.5.7**: Application framework
+- **Spring Data JPA**: Data access abstraction
+- **Hibernate**: JPA implementation
+- **Gradle**: Build automation and dependency management
+
+### Database & Migration
+- **PostgreSQL**: Relational database
+- **Flyway**: Database migration tool
+- **JPA/Hibernate**: ORM for database operations
+
+### Testing Framework
+- **JUnit 5**: Testing framework
+- **Mockito**: Mocking framework
+- **Spring Boot Test**: Integration testing support
+- **Test Coverage**: 90% threshold for branches, functions, lines, and statements
+
+### Development Tools
+- **Gradle Wrapper**: Consistent build environment
+- **Spring Boot DevTools**: Development-time features
+- **Lombok** (if used): Reduces boilerplate code
+
+## Architecture Overview
+
+### Domain-Driven Design (DDD)
+
+Domain-Driven Design is a methodology that focuses on modeling software according to business logic and domain knowledge. By centering development on a deep understanding of the domain, DDD facilitates the creation of complex systems.
+
+**Benefits:**
+- **Improved Communication**: Promotes a common language between developers and domain experts
+- **Clear Domain Models**: Helps build models that accurately reflect business rules and processes
+- **High Maintainability**: By dividing the system into subdomains, it facilitates maintenance and software evolution
+
+### Layered Architecture
+
+The backend follows a layered DDD architecture:
+
+**Presentation Layer** (`controller/`)
+- REST controllers handle HTTP requests/responses
+- Use DTOs for data transfer
+- Controllers delegate to service layer
+- Handle HTTP status codes and error responses
+
+**Application Layer** (`service/`)
+- Services contain business logic and orchestration
+- Interface-based design (e.g., `ITimelineService`)
+- Services use repositories from domain layer
+- Transaction management
+
+**Domain Layer** (`model/`)
+- JPA entities define core business entities
+- Repository interfaces extend `JpaRepository`
+- Pure business logic without external dependencies
+- Value objects and domain services
+
+**Infrastructure Layer** (`repository/`)
+- Spring Data JPA repositories
+- Database access implementations
+- Flyway migrations in `src/main/resources/db/migration/`
+
+### Project Structure
+
+```
+src/
+├── main/
+│   ├── java/com/inclusive/landing/
+│   │   ├── controller/          # REST controllers
+│   │   ├── service/             # Business logic services
+│   │   │   ├── I*Service.java   # Service interfaces
+│   │   │   └── *Service.java     # Service implementations
+│   │   ├── repository/          # Spring Data JPA repositories
+│   │   ├── model/               # JPA entities (domain models)
+│   │   ├── dto/                 # Data Transfer Objects
+│   │   └── LandingBackendApplication.java
+│   └── resources/
+│       ├── application.yaml     # Application configuration
+│       └── db/migration/         # Flyway migrations
+└── test/
+    └── java/com/inclusive/landing/
+        └── [mirror structure for tests]
+```
+
+## Domain-Driven Design Principles
+
+### Entities
+
+Entities are objects with a distinct identity that persists over time.
+
+**Example:**
+```java
+@Entity
+@Table(name = "school")
+public class School {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "full_name")
+    private String fullName;
+
+    // Business logic methods
+    public boolean isValid() {
+        return fullName != null && !fullName.trim().isEmpty();
+    }
+}
+```
+
+**Best Practice**: Entities should encapsulate business logic related to their domain concept and maintain consistency of their internal state.
+
+### Value Objects
+
+Value Objects describe aspects of the domain without conceptual identity. They are defined by their attributes rather than an identifier.
+
+**Recommendation**: Use `@Embeddable` for value objects that don't need their own table.
+
+### Aggregates
+
+Aggregates are clusters of objects that must be treated as a unit. They have a root entity that enforces invariants and consistency boundaries.
+
+**Example**: `School` acts as an aggregate root containing `TimeLine` entities.
+
+**Best Practice**: Operations that affect related entities should be handled through the aggregate root to maintain integrity.
+
+### Repositories
+
+Repositories provide interfaces for accessing aggregates and entities, encapsulating data access logic.
+
+**Example:**
+```java
+public interface TimelineRepository extends JpaRepository<TimeLine, Long> {
+    List<TimeLine> findBySchoolIdOrderByYearAsc(Long schoolId);
+}
+```
+
+**Best Practice**: 
+- Use Spring Data JPA repository interfaces
+- Define custom query methods following Spring Data naming conventions
+- Use `@Query` for complex queries
+- Keep repositories focused on data access only
+
+### Domain Services
+
+Domain Services contain business logic that doesn't naturally belong to an entity or value object.
+
+**Example:**
+```java
+@Service
+public class TimelineService implements ITimelineService {
+    private final TimelineRepository timelineRepository;
+    
+    @Transactional(readOnly = true)
+    public TimelineDTO findBySchoolId(Long schoolId) {
+        // Business logic here
+    }
+}
+```
+
+## SOLID and DRY Principles
+
+### Single Responsibility Principle (SRP)
+
+Each class should have a single responsibility or reason to change.
+
+**Example:**
+- Controllers: Handle HTTP requests/responses only
+- Services: Contain business logic only
+- Repositories: Handle data access only
+- DTOs: Transfer data only
+
+### Open/Closed Principle (OCP)
+
+Software entities should be open for extension but closed for modification.
+
+**Best Practice**: Use interfaces for services and repositories to allow extension without modification.
+
+### Liskov Substitution Principle (LSP)
+
+Objects of a derived class should be replaceable with objects of the base class.
+
+**Best Practice**: Service implementations should fully satisfy their interface contracts.
+
+### Interface Segregation Principle (ISP)
+
+Many specific interfaces are better than a single general interface.
+
+**Best Practice**: 
+- Use specific service interfaces (e.g., `ITimelineService`, `ISchoolService`)
+- Avoid large, general-purpose interfaces
+
+### Dependency Inversion Principle (DIP)
+
+High-level modules should not depend on low-level modules; both should depend on abstractions.
+
+**Best Practice**: 
+- Use constructor injection for dependencies
+- Depend on interfaces, not concrete implementations
+- Spring's dependency injection handles this automatically
+
+### DRY (Don't Repeat Yourself)
+
+The DRY principle focuses on reducing duplication in code.
+
+**Best Practice**:
+- Extract common logic into service methods
+- Use base classes or interfaces for shared behavior
+- Reuse DTOs and validation logic
+
+## Coding Standards
+
+### Naming Conventions
+
+- **Class Naming**: Use PascalCase (e.g., `TimelineService`, `SchoolController`)
+- **Method Naming**: Use camelCase (e.g., `findBySchoolId`, `getTimelineDTO`)
+- **Variable Naming**: Use camelCase (e.g., `schoolId`, `timelineDTO`)
+- **Constant Naming**: Use UPPER_SNAKE_CASE (e.g., `MAX_RETRY_ATTEMPTS`)
+- **Package Naming**: Use lowercase with dots (e.g., `com.inclusive.landing.controller`)
+- **File Naming**: Match class names exactly
+
+**Examples:**
+```java
+// Good: All in English
+@Service
+public class TimelineService {
+    public TimelineDTO findBySchoolId(Long schoolId) {
+        // Implementation
+    }
+}
+
+// Avoid: Non-English names
+@Service
+public class ServicioTimeline {
+    public TimelineDTO buscarPorIdEscuela(Long idEscuela) {
+        // Implementation
+    }
+}
+```
+
+### Java Code Style
+
+- **Access Modifiers**: Use appropriate access modifiers (private, protected, public)
+- **Final Fields**: Make fields final when possible
+- **Constructor Injection**: Prefer constructor injection over field injection
+- **Immutability**: Prefer immutable objects when possible
+- **Java 21 Features**: Use modern Java features (records, pattern matching, etc.) when appropriate
+
+**Example:**
+```java
+@RestController
+@RequestMapping("/api/inclusive/{schoolId}/timeline")
+public class TimelineController {
+    private final ITimelineService timelineService;
+
+    public TimelineController(ITimelineService timelineService) {
+        this.timelineService = timelineService;
+    }
+
+    @GetMapping(produces = "application/json")
+    public TimelineDTO getTimelineDTO(@PathVariable Long schoolId) {
+        return timelineService.findBySchoolId(schoolId);
+    }
+}
+```
+
+### Error Handling
+
+- **Custom Exceptions**: Create domain-specific exception classes
+- **Global Exception Handler**: Use `@ControllerAdvice` for consistent error responses
+- **Error Messages**: Provide descriptive error messages in English
+
+**Example:**
+```java
+@ControllerAdvice
+public class GlobalExceptionHandler {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleEntityNotFound(EntityNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(new ErrorResponse(ex.getMessage()));
+    }
+}
+```
+
+### Validation Patterns
+
+- **Bean Validation**: Use Jakarta Bean Validation (`@NotNull`, `@Size`, `@Valid`, etc.)
+- **Validate at Controller**: Use `@Valid` on request DTOs
+- **Validate in Service**: Additional business rule validation in service layer
+
+**Example:**
+```java
+@PostMapping
+public ResponseEntity<SchoolDTO> createSchool(@Valid @RequestBody CreateSchoolRequest request) {
+    // Validation happens automatically via @Valid
+    SchoolDTO school = schoolService.create(request);
+    return ResponseEntity.status(HttpStatus.CREATED).body(school);
+}
+```
+
+### Logging Standards
+
+- **Use SLF4J**: Use SLF4J with Logback (Spring Boot default)
+- **Log Levels**: Use appropriate log levels (INFO, ERROR, WARN, DEBUG)
+- **Structured Logging**: Include relevant context in log messages
+
+**Example:**
+```java
+private static final Logger log = LoggerFactory.getLogger(TimelineService.class);
+
+public TimelineDTO findBySchoolId(Long schoolId) {
+    log.info("Finding timeline for schoolId: {}", schoolId);
+    // Implementation
+}
+```
+
+## API Design Standards
+
+### REST Endpoints
+
+- **RESTful Naming**: Use RESTful conventions for endpoint naming
+- **HTTP Methods**: Use appropriate HTTP methods (GET, POST, PUT, DELETE, PATCH)
+- **Resource-Based URLs**: URLs should represent resources, not actions
+
+**Example:**
+```java
+GET    /api/inclusive/{schoolId}/timeline     // Get timeline
+GET    /api/schools/{id}                     // Get school by ID
+POST   /api/schools                          // Create school
+PUT    /api/schools/{id}                     // Update school
+DELETE /api/schools/{id}                     // Delete school
+```
+
+### Request/Response Patterns
+
+- **JSON Format**: Use JSON for request and response bodies
+- **Consistent Structure**: Maintain consistent response structure across all endpoints
+- **Status Codes**: Use appropriate HTTP status codes
+
+**Example:**
+```java
+@GetMapping("/{id}")
+public ResponseEntity<SchoolDTO> getSchoolById(@PathVariable Long id) {
+    SchoolDTO school = schoolService.getSchoolById(id);
+    return ResponseEntity.ok(school);
+}
+```
+
+### DTO Pattern
+
+- **Separate DTOs from Entities**: Use DTOs for API communication
+- **DTO Location**: Place DTOs in `dto/` package
+- **Mapping**: Use manual mapping or MapStruct for entity-to-DTO conversion
+
+**Example:**
+```java
+public class TimelineDTO {
+    private String schoolName;
+    private String city;
+    private String department;
+    private List<TimelineEntry> entries;
+    
+    // Constructors, getters, setters
+}
+```
+
+### Error Response Format
+
+- **Consistent Format**: All errors should follow the same response structure
+- **Error Codes**: Use meaningful error codes for different error types
+- **HTTP Status Codes**: Map errors to appropriate HTTP status codes
+
+**Example:**
+```java
+public class ErrorResponse {
+    private String message;
+    private String error;
+    private LocalDateTime timestamp;
+    
+    // Constructors, getters, setters
+}
+```
+
+## Database Patterns
+
+### JPA Entities
+
+- **Entity Annotations**: Use `@Entity`, `@Table`, `@Id`, `@GeneratedValue`
+- **Column Mapping**: Use `@Column` for explicit column mapping
+- **Relationships**: Use `@OneToMany`, `@ManyToOne`, `@ManyToMany` appropriately
+- **Naming Strategy**: Use snake_case for database columns, camelCase for Java fields
+
+**Example:**
+```java
+@Entity
+@Table(name = "school")
+public class School {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "full_name")
+    private String fullName;
+}
+```
+
+### Flyway Migrations
+
+- **Version Control**: All database changes must be version-controlled through Flyway migrations
+- **Migration Naming**: Use format `V{version}__{description}.sql` (e.g., `V001__tables_base.sql`)
+- **Location**: Place migrations in `src/main/resources/db/migration/`
+- **Review Migrations**: Review migration files before applying
+
+**Best Practice**:
+- Never modify existing migrations
+- Create new migrations for schema changes
+- Test migrations in development before production
+
+### Repository Pattern
+
+- **Spring Data JPA**: Use Spring Data JPA repository interfaces
+- **Custom Queries**: Use method naming conventions or `@Query` for custom queries
+- **Transaction Management**: Use `@Transactional` in service layer
+
+**Example:**
+```java
+public interface TimelineRepository extends JpaRepository<TimeLine, Long> {
+    List<TimeLine> findBySchoolIdOrderByYearAsc(Long schoolId);
+    
+    @Query("SELECT t FROM TimeLine t WHERE t.school.id = :schoolId ORDER BY t.year ASC")
+    List<TimeLine> findTimelinesBySchool(@Param("schoolId") Long schoolId);
+}
+```
+
+## Testing Standards
+
+The project has strict requirements for code quality and maintainability. These are the unit testing standards and best practices that must be applied.
+
+### Test File Structure
+- Use descriptive test file names: `[ComponentName]Test.java`
+- Place test files in `src/test/java/` mirroring the main source structure
+- Use JUnit 5 and Mockito for testing
+- Maintain 90% coverage threshold for branches, functions, lines, and statements
+
+### Test Organization Pattern
+Template:
+```java
+@ExtendWith(MockitoExtension.class)
+class TimelineServiceTest {
+    
+    @Mock
+    private TimelineRepository timelineRepository;
+    
+    @InjectMocks
+    private TimelineService timelineService;
+    
+    @Test
+    void should_returnTimeline_when_schoolIdExists() {
+        // Arrange
+        Long schoolId = 1L;
+        // ... setup mocks
+        
+        // Act
+        TimelineDTO result = timelineService.findBySchoolId(schoolId);
+        
+        // Assert
+        assertThat(result).isNotNull();
+        // ... assertions
+    }
+}
+```
+
+### Test Case Naming Convention
+- Use descriptive, behavior-driven naming: `should_[expectedBehavior]_when_[condition]`
+- Use camelCase for test method names
+- Group related test cases under descriptive test classes
+
+### Test Structure (AAA Pattern)
+Always follow the Arrange-Act-Assert pattern:
+```java
+@Test
+void should_updateSchool_when_validDataProvided() {
+    // Arrange - Set up test data and mocks
+    Long schoolId = 1L;
+    UpdateSchoolRequest request = new UpdateSchoolRequest("New Name");
+    School school = new School();
+    when(schoolRepository.findById(schoolId)).thenReturn(Optional.of(school));
+    
+    // Act - Execute the method under test
+    SchoolDTO result = schoolService.updateSchool(schoolId, request);
+    
+    // Assert - Verify the expected behavior
+    assertThat(result.getFullName()).isEqualTo("New Name");
+    verify(schoolRepository).save(any(School.class));
+}
+```
+
+### Mocking Standards
+
+- Mock all external dependencies (repositories, services)
+- Mock repository layers in service tests
+- Mock service layers in controller tests
+- Use `@Mock` and `@InjectMocks` annotations
+- Use `@ExtendWith(MockitoExtension.class)` for JUnit 5
+
+**Example:**
+```java
+@ExtendWith(MockitoExtension.class)
+class TimelineServiceTest {
+    @Mock
+    private TimelineRepository timelineRepository;
+    
+    @Mock
+    private ISchoolService schoolService;
+    
+    @InjectMocks
+    private TimelineService timelineService;
+}
+```
+
+### Test Coverage Requirements
+
+- **Comprehensive test coverage**: Include these test categories for each method:
+  1. **Happy Path Tests**: Valid inputs producing expected outputs
+  2. **Error Handling Tests**: Invalid inputs, missing data, database errors
+  3. **Edge Cases**: Boundary values, null/undefined inputs, empty data
+  4. **Validation Tests**: Input validation, business rule enforcement
+  5. **Integration Points**: External service calls, database operations
+
+- **Threshold**: 90% for branches, functions, lines, and statements
+- **Coverage Reports**: Generate coverage reports with Gradle test task
+
+### Controller Testing
+
+- Use `@WebMvcTest` for controller unit tests
+- Mock the service layer completely
+- Test HTTP request/response handling
+- Verify parameter parsing and validation
+- Test error response formatting
+
+**Example:**
+```java
+@WebMvcTest(TimelineController.class)
+class TimelineControllerTest {
+    @MockBean
+    private ITimelineService timelineService;
+    
+    @Autowired
+    private MockMvc mockMvc;
+    
+    @Test
+    void should_returnTimeline_when_schoolIdExists() throws Exception {
+        // Arrange
+        Long schoolId = 1L;
+        TimelineDTO dto = new TimelineDTO(/* ... */);
+        when(timelineService.findBySchoolId(schoolId)).thenReturn(dto);
+        
+        // Act & Assert
+        mockMvc.perform(get("/api/inclusive/{schoolId}/timeline", schoolId))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.schoolName").value("Test School"));
+    }
+}
+```
+
+### Service Testing
+
+- Mock domain models and repositories
+- Test business logic in isolation
+- Verify data transformation and validation
+- Test error handling and edge cases
+
+### Integration Testing
+
+- Use `@SpringBootTest` for integration tests
+- Use `@Testcontainers` for database integration tests (if needed)
+- Test complete request flows
+- Test repository implementations with database
+
+## Performance Best Practices
+
+### Database Query Optimization
+
+- **Select Specific Fields**: Use projections or DTOs to select only needed fields
+- **Use Indexes**: Ensure proper database indexes for frequently queried fields
+- **Avoid N+1 Queries**: Use `@EntityGraph` or fetch joins to load related data efficiently
+- **Pagination**: Use `Pageable` for large result sets
+
+**Example:**
+```java
+@EntityGraph(attributePaths = {"timelines"})
+List<School> findAll();
+```
+
+### Transaction Management
+
+- **Read-Only Transactions**: Use `@Transactional(readOnly = true)` for read operations
+- **Transaction Boundaries**: Keep transactions as short as possible
+- **Avoid Long Transactions**: Don't hold transactions open during external API calls
+
+**Example:**
+```java
+@Transactional(readOnly = true)
+public TimelineDTO findBySchoolId(Long schoolId) {
+    // Read-only operation
+}
+```
+
+### Caching
+
+- **Spring Cache**: Use `@Cacheable` for frequently accessed data
+- **Cache Configuration**: Configure appropriate cache eviction policies
+- **Cache Keys**: Use meaningful cache keys
+
+## Security Best Practices
+
+**Note**: For comprehensive security standards based on OWASP Top 10 2021, refer to [Security Standards](./security-standards.mdc).
+
+### Input Validation
+
+- **Validate All Inputs**: Validate all user inputs before processing
+- **Bean Validation**: Use Jakarta Bean Validation annotations
+- **Sanitize Data**: Sanitize data to prevent injection attacks
+
+### Environment Variables
+
+- **Never Commit Secrets**: Never commit `.env` files or secrets to version control
+- **Use Application Properties**: Use `application.yaml` for configuration
+- **Profile-Specific Config**: Use Spring profiles for environment-specific configuration
+
+**Example:**
+```yaml
+# application-dev.yaml
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/landingdb
+    username: postgres
+    password: example
+```
+
+### Dependency Injection
+
+- **Constructor Injection**: Use constructor injection for dependencies
+- **Avoid Field Injection**: Prefer constructor injection over `@Autowired` on fields
+- **Testability**: Constructor injection improves testability
+
+## Development Workflow
+
+### Git Workflow
+
+- **Feature Branches**: Develop features in separate branches, adding descriptive suffix "-backend" to allow working in parallel
+- **Descriptive Commits**: Write descriptive commit messages in English
+- **Code Review**: Code review before merging
+- **Small Branches**: Keep branches small and focused
+
+### Gradle Commands
+
+```bash
+./gradlew build          # Build the project
+./gradlew test           # Run tests
+./gradlew bootRun        # Run the application
+./gradlew clean          # Clean build artifacts
+./gradlew flywayMigrate  # Run Flyway migrations
+```
+
+### Code Quality
+
+- **Compilation**: Ensure code compiles without errors
+- **All Tests Passing**: Ensure all tests pass before deployment
+- **Code Review**: Review code for adherence to standards
+- **Static Analysis**: Use tools like Checkstyle, PMD, or SpotBugs (if configured)
+
+This document serves as the foundation for maintaining code quality and consistency across the Spring Boot backend application. All team members should follow these practices to ensure a maintainable, scalable, and testable codebase.

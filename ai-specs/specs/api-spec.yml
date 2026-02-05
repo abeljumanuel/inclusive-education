@@ -1,0 +1,329 @@
+openapi: 3.0.0
+info:
+  title: Landing Backend API
+  description: |
+    REST API for the Landing Backend application, which systematizes inclusive education experiences in Colombian schools.
+    
+    This API follows Domain-Driven Design principles and implements a layered architecture for documenting and presenting research on inclusive education practices.
+    
+    ## Features
+    - Timeline management for tracking the evolution of inclusive education practices at schools
+    - Research findings with detailed modal information
+    - Interview/testimony management for teacher quotes and testimonials
+    - Appendix management for research materials and documents
+    - Image gallery management for visual documentation
+    
+  version: 1.0.0
+  contact:
+    name: Landing Backend Development Team
+  license:
+    name: ISC
+    
+servers:
+  - url: http://localhost:8080
+    description: Development server
+  - url: https://api.landing.dev
+    description: Production server
+
+paths:
+  /api/inclusive/{schoolId}/timeline:
+    get:
+      summary: Get timeline for a school
+      description: Retrieve the chronological timeline of inclusive education practices for a specific school
+      tags:
+        - Timeline
+      parameters:
+        - in: path
+          name: schoolId
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: School identifier
+      responses:
+        '200':
+          description: Successfully retrieved timeline
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimelineDTO'
+        '400':
+          description: Invalid school ID format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: School not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/inclusive/finding:
+    get:
+      summary: Get all findings
+      description: Retrieve all research findings with their associated modal details
+      tags:
+        - Findings
+      responses:
+        '200':
+          description: Successfully retrieved findings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FindingDTO'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/inclusive/interviews:
+    get:
+      summary: Get all interviews
+      description: Retrieve all teacher interviews/testimonies with school information
+      tags:
+        - Interviews
+      responses:
+        '200':
+          description: Successfully retrieved interviews
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InterviewDTO'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/inclusive/appendices:
+    get:
+      summary: Get all appendices
+      description: Retrieve all research material appendices with their function URLs
+      tags:
+        - Appendices
+      responses:
+        '200':
+          description: Successfully retrieved appendices
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AppendixDTO'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/inclusive/image:
+    get:
+      summary: Get all images
+      description: Retrieve all gallery images with their descriptions
+      tags:
+        - Images
+      responses:
+        '200':
+          description: Successfully retrieved images
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImageDTO'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    TimelineDTO:
+      type: object
+      properties:
+        schoolFullName:
+          type: string
+          description: Full name of the school
+        city:
+          type: string
+          nullable: true
+          description: City where the school is located
+        department:
+          type: string
+          nullable: true
+          description: Department/state where the school is located
+        timelineEntries:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimelineEntry'
+          description: List of chronological timeline entries
+      required:
+        - schoolFullName
+        - timelineEntries
+
+    TimelineEntry:
+      type: object
+      properties:
+        year:
+          type: integer
+          description: Year of the timeline entry
+        title:
+          type: string
+          description: Title of the timeline entry
+        description:
+          type: string
+          nullable: true
+          description: Detailed description of the events/practices
+      required:
+        - year
+        - title
+
+    FindingDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier for the finding
+        iconTitle:
+          type: string
+          nullable: true
+          description: Icon or emoji to display with the finding title
+        title:
+          type: string
+          description: Title of the finding
+        description:
+          type: string
+          nullable: true
+          description: Brief description of the finding
+        modalTitle:
+          type: string
+          nullable: true
+          description: Title displayed in the modal dialog
+        modalDescription:
+          type: string
+          nullable: true
+          description: Detailed description displayed in the modal dialog
+        modalImagePath:
+          type: string
+          nullable: true
+          description: Path to the image displayed in the modal dialog
+      required:
+        - id
+        - title
+
+    InterviewDTO:
+      type: object
+      properties:
+        intervieweeName:
+          type: string
+          description: Name of the interviewed teacher
+        intervieweePosition:
+          type: string
+          nullable: true
+          description: Position/role of the interviewee
+        quote:
+          type: string
+          nullable: true
+          description: Quote or key excerpt from the interview
+        schoolName:
+          type: string
+          nullable: true
+          description: Short name of the school associated with the interview
+        urlAudio:
+          type: string
+          nullable: true
+          description: URL to the audio recording of the interview
+        urlFile:
+          type: string
+          nullable: true
+          description: URL to the document/transcript of the interview
+      required:
+        - intervieweeName
+
+    AppendixDTO:
+      type: object
+      properties:
+        iconTitle:
+          type: string
+          nullable: true
+          description: Icon or emoji for the appendix title
+        title:
+          type: string
+          description: Title of the appendix
+        iconDescription:
+          type: string
+          nullable: true
+          description: Additional icon/emoji for description
+        description:
+          type: string
+          nullable: true
+          description: Description of the appendix content
+        functionTitle:
+          type: string
+          nullable: true
+          description: Title for the action/function button
+        functionUrl:
+          type: string
+          nullable: true
+          description: |
+            URL or function identifier for the action.
+            Can be a URL (Google Drive, Google Docs link) or the special value "GALLERY" to open the gallery modal
+      required:
+        - title
+
+    ImageDTO:
+      type: object
+      properties:
+        urlImage:
+          type: string
+          description: Filename/path of the image in the gallery folder
+        description:
+          type: string
+          nullable: true
+          description: Detailed description of the image content
+      required:
+        - urlImage
+
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+        error:
+          type: string
+          nullable: true
+          description: Detailed error information
+      required:
+        - message
+
+tags:
+  - name: Timeline
+    description: Operations related to school timeline management
+  - name: Findings
+    description: Operations related to research findings
+  - name: Interviews
+    description: Operations related to teacher interviews and testimonies
+  - name: Appendices
+    description: Operations related to research material appendices
+  - name: Images
+    description: Operations related to gallery image management
