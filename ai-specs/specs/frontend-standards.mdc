@@ -1,0 +1,730 @@
+---
+description: Frontend development standards, best practices, and conventions for the static HTML/JavaScript/Tailwind CSS application served by Spring Boot
+globs: ["src/main/resources/static/**/*.{html,js,css}", "src/main/resources/static/js/**/*.js", "src/main/resources/static/**/*.html"]
+alwaysApply: true
+---
+
+# Frontend Project Standards and Best Practices
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Coding Standards](#coding-standards)
+- [HTML Standards](#html-standards)
+- [JavaScript Standards](#javascript-standards)
+- [Tailwind CSS Standards](#tailwind-css-standards)
+- [API Integration](#api-integration)
+- [Security Best Practices](#security-best-practices)
+- [Performance Best Practices](#performance-best-practices)
+- [Accessibility](#accessibility)
+- [Testing Standards](#testing-standards)
+- [Development Workflow](#development-workflow)
+
+---
+
+## Overview
+
+This document outlines the best practices, conventions, and standards used in the static frontend application. The frontend is served as static content by Spring Boot and uses vanilla JavaScript, Tailwind CSS, and modern web APIs for dynamic functionality.
+
+## Technology Stack
+
+### Core Technologies
+- **HTML5**: Semantic markup
+- **Vanilla JavaScript (ES6+)**: Modern JavaScript without frameworks
+- **Tailwind CSS 3.4+**: Utility-first CSS framework
+- **Fetch API**: For HTTP requests to Spring Boot backend
+- **Spring Boot Static Resources**: Served from `src/main/resources/static/`
+
+### Build Tools (Optional)
+- **Tailwind CLI**: For compiling Tailwind CSS to `output.css`
+- **No bundler required**: Direct file serving by Spring Boot
+
+### Development Tools
+- **Modern Browser DevTools**: For debugging
+- **Browser Compatibility**: Support modern browsers (Chrome, Firefox, Safari, Edge)
+
+## Project Structure
+
+```
+src/main/resources/static/
+├── index.html              # Main HTML page
+├── output.css              # Compiled Tailwind CSS
+├── js/
+│   └── main.js             # Main JavaScript file
+├── img/                    # Image assets
+│   ├── barreras.png
+│   ├── practicas.png
+│   ├── reconocimiento.png
+│   └── retos.png
+├── gallery/                # Gallery images
+├── favicon.ico             # Site favicon
+├── favicon-16x16.png
+├── favicon-32x32.png
+└── apple-touch-icon.png
+```
+
+**Best Practice**: Keep JavaScript files organized by feature when the codebase grows. Consider splitting into modules:
+```
+js/
+├── main.js                 # Entry point
+├── api/                    # API communication
+│   └── apiClient.js
+├── components/             # Reusable UI components
+│   ├── carousel.js
+│   └── modal.js
+└── utils/                  # Utility functions
+    └── escapeHtml.js
+```
+
+## Coding Standards
+
+### Language and Naming Conventions
+
+- **English Only**: All code, comments, variable names, and user-facing text must be in English
+- **Variable Naming**: Use camelCase for variables and functions (e.g., `schoolId`, `loadTimeline`, `renderFindings`)
+- **Function Naming**: Use camelCase with descriptive verbs (e.g., `loadTimeline`, `renderFindings`, `initCarousels`)
+- **Constant Naming**: Use UPPER_SNAKE_CASE for constants (e.g., `API_BASE_URL`, `MAX_RETRY_ATTEMPTS`)
+- **File Naming**: Use kebab-case for HTML files, camelCase for JavaScript files (e.g., `index.html`, `main.js`, `apiClient.js`)
+- **CSS Class Naming**: Use Tailwind utility classes (no custom CSS classes needed)
+
+**Examples:**
+
+```javascript
+// Good: All in English
+async function loadTimeline(schoolId) {
+  try {
+    const response = await fetch(`/api/inclusive/${schoolId}/timeline`);
+    const timelineDTO = await response.json();
+    renderTimeline(timelineDTO, schoolId);
+  } catch (error) {
+    console.error("Error loading timeline:", error);
+  }
+}
+
+// Avoid: Non-English names
+async function cargarLineaTiempo(idEscuela) {
+  try {
+    const respuesta = await fetch(`/api/inclusive/${idEscuela}/timeline`);
+    const lineaTiempoDTO = await respuesta.json();
+    renderizarLineaTiempo(lineaTiempoDTO, idEscuela);
+  } catch (error) {
+    console.error("Error al cargar línea de tiempo:", error);
+  }
+}
+```
+
+**Error Messages and Console Logs:**
+
+```javascript
+// Good: English error messages
+catch (error) {
+  console.error("Error loading timeline:", error);
+  showErrorMessage("Unable to load timeline. Please try again later.");
+}
+
+// Avoid: Non-English messages
+catch (error) {
+  console.error("Error al cargar línea de tiempo:", error);
+  mostrarError("No se pudo cargar la línea de tiempo. Por favor, inténtelo de nuevo.");
+}
+```
+
+### Code Organization
+
+- **Modular Functions**: Break code into small, focused functions
+- **Separation of Concerns**: Separate data fetching, rendering, and event handling
+- **DRY Principle**: Extract common logic into reusable functions
+- **Single Responsibility**: Each function should do one thing well
+
+**Example Structure:**
+
+```javascript
+// Data fetching functions
+async function loadTimeline(schoolId) { /* ... */ }
+async function loadFindings() { /* ... */ }
+async function loadInterviews() { /* ... */ }
+
+// Rendering functions
+function renderTimeline(timelineDTO, schoolId) { /* ... */ }
+function renderFindings(findings) { /* ... */ }
+function renderInterviews(list) { /* ... */ }
+
+// UI initialization functions
+function initCarousels() { /* ... */ }
+function initModalDelegation() { /* ... */ }
+function initGalleryModalBasic() { /* ... */ }
+
+// Utility functions
+function escapeHtml(str) { /* ... */ }
+function escapeAttr(str) { /* ... */ }
+```
+
+## HTML Standards
+
+### Semantic HTML
+
+- **Use semantic elements**: `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`
+- **Proper heading hierarchy**: Use `<h1>` through `<h6>` in order
+- **Accessible forms**: Use proper `<label>` associations
+- **ARIA attributes**: Add ARIA labels where needed for accessibility
+
+**Example:**
+
+```html
+<header class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white py-20 shadow-lg">
+  <div class="max-w-5xl mx-auto text-center px-6">
+    <img src="logo.png" alt="Logo" class="mx-auto mb-8 h-40 md:h-52 drop-shadow-2xl">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4">
+      Educación Inclusiva: Transformando realidades
+    </h1>
+  </div>
+</header>
+
+<section class="max-w-6xl mx-auto px-6 py-16">
+  <h2 class="text-3xl font-bold text-center mb-12">Experiencias destacadas</h2>
+  <div id="timeline-container" class="grid md:grid-cols-2 gap-12"></div>
+</section>
+```
+
+### HTML Best Practices
+
+- **Declare language**: Always include `lang` attribute on `<html>` tag
+- **Meta tags**: Include proper viewport, charset, and description meta tags
+- **Favicons**: Include all favicon variants for cross-platform support
+- **Script placement**: Place scripts before closing `</body>` tag for better performance
+
+**Example:**
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistematización Educación Inclusiva</title>
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link href="output.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Content -->
+  <script src="js/main.js"></script>
+</body>
+</html>
+```
+
+## JavaScript Standards
+
+### Modern JavaScript Features
+
+- **ES6+ Syntax**: Use arrow functions, async/await, destructuring, template literals
+- **Strict Mode**: Consider using `'use strict'` at the top of files
+- **Const/Let**: Prefer `const` for constants, `let` for variables that change
+- **Avoid `var`**: Never use `var`, always use `const` or `let`
+
+**Example:**
+
+```javascript
+// Good: Modern JavaScript
+const safeQuery = (sel) => document.querySelector(sel);
+const safeGet = (id) => document.getElementById(id);
+
+async function loadTimeline(schoolId) {
+  try {
+    const response = await fetch(`/api/inclusive/${schoolId}/timeline`, {
+      headers: { "Accept": "application/json" }
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const timelineDTO = await response.json();
+    renderTimeline(timelineDTO, schoolId);
+  } catch (error) {
+    console.error("Error loading timeline:", error);
+  }
+}
+
+// Avoid: Old JavaScript patterns
+function loadTimeline(schoolId) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/api/inclusive/' + schoolId + '/timeline');
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      var data = JSON.parse(xhr.responseText);
+      renderTimeline(data, schoolId);
+    }
+  };
+  xhr.send();
+}
+```
+
+### DOM Manipulation
+
+- **Safe DOM Access**: Always check if elements exist before manipulating
+- **Event Delegation**: Use event delegation for dynamically added elements
+- **DOM Ready**: Wait for `DOMContentLoaded` before accessing DOM elements
+
+**Example:**
+
+```javascript
+// Good: Safe DOM access with helper functions
+const safeQuery = (sel) => document.querySelector(sel);
+const safeGet = (id) => document.getElementById(id);
+
+document.addEventListener("DOMContentLoaded", () => {
+  const container = safeGet("timeline-container");
+  if (!container) {
+    console.warn("Timeline container not found");
+    return;
+  }
+  loadTimeline(1);
+});
+
+// Avoid: Direct DOM access without checks
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("timeline-container").innerHTML = "...";
+  // Will throw error if element doesn't exist
+});
+```
+
+### Error Handling
+
+- **Try-Catch Blocks**: Always wrap async operations in try-catch
+- **Error Logging**: Log errors with context for debugging
+- **User-Friendly Messages**: Show user-friendly error messages
+- **Graceful Degradation**: Handle errors without breaking the entire page
+
+**Example:**
+
+```javascript
+async function loadFindings() {
+  try {
+    const response = await fetch(`/api/inclusive/finding`, {
+      headers: { "Accept": "application/json" }
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    const findings = await response.json();
+    renderFindings(findings || []);
+  } catch (error) {
+    console.error("Error loading findings:", error);
+    // Show user-friendly error message
+    showErrorMessage("Unable to load findings. Please refresh the page.");
+  }
+}
+```
+
+### Event Handling
+
+- **Event Delegation**: Use event delegation for dynamic content
+- **Passive Listeners**: Use `{ passive: true }` for scroll events
+- **Remove Listeners**: Clean up event listeners when needed (for carousels, etc.)
+
+**Example:**
+
+```javascript
+// Good: Event delegation for dynamic content
+function initModalDelegation() {
+  document.addEventListener("click", (e) => {
+    const openBtn = e.target.closest("[data-modal]");
+    if (openBtn) {
+      const id = openBtn.getAttribute("data-modal");
+      const modal = safeGet(id);
+      if (modal) {
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      }
+      return;
+    }
+    // Handle close button
+    const closeBtn = e.target.closest("[data-close]");
+    if (closeBtn) {
+      const modalRoot = closeBtn.closest("div[id^='modal']");
+      if (modalRoot) modalRoot.classList.add("hidden");
+    }
+  });
+}
+
+// Good: Passive listeners for scroll
+document.addEventListener("scroll", () => {
+  // Scroll handling
+}, { passive: true });
+```
+
+## Tailwind CSS Standards
+
+### Utility-First Approach
+
+- **Use Tailwind Utilities**: Prefer Tailwind utility classes over custom CSS
+- **Responsive Design**: Use Tailwind responsive prefixes (`md:`, `lg:`, etc.)
+- **Consistent Spacing**: Use Tailwind spacing scale (e.g., `p-4`, `mb-6`, `gap-8`)
+- **Color Palette**: Use Tailwind color palette consistently
+
+**Example:**
+
+```html
+<!-- Good: Tailwind utility classes -->
+<section class="max-w-6xl mx-auto px-6 py-16">
+  <h2 class="text-3xl font-bold text-center mb-12">Experiencias destacadas</h2>
+  <div class="grid md:grid-cols-2 gap-12">
+    <!-- Content -->
+  </div>
+</section>
+
+<!-- Avoid: Custom CSS classes -->
+<section class="experiences-section">
+  <h2 class="section-title">Experiencias destacadas</h2>
+  <div class="experiences-grid">
+    <!-- Content -->
+  </div>
+</section>
+```
+
+### Responsive Design
+
+- **Mobile-First**: Design for mobile first, then add larger breakpoints
+- **Breakpoints**: Use Tailwind breakpoints (`sm:`, `md:`, `lg:`, `xl:`, `2xl:`)
+- **Flexible Layouts**: Use `flex` and `grid` utilities for responsive layouts
+
+**Example:**
+
+```html
+<!-- Mobile-first responsive design -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <!-- Content adapts to screen size -->
+</div>
+
+<header class="text-2xl md:text-4xl lg:text-5xl font-bold">
+  <!-- Text size adapts to screen -->
+</header>
+```
+
+### Tailwind Best Practices
+
+- **Consistent Spacing**: Use Tailwind spacing scale consistently
+- **Color Consistency**: Stick to Tailwind color palette
+- **Component Patterns**: Create reusable component patterns with consistent Tailwind classes
+- **Custom Configuration**: If needed, extend Tailwind config rather than writing custom CSS
+
+## API Integration
+
+### Fetch API Usage
+
+- **Consistent Headers**: Always include `Accept: application/json` header
+- **Error Handling**: Check `response.ok` before parsing JSON
+- **Async/Await**: Use async/await instead of promise chains
+- **Base URL**: Use relative URLs (Spring Boot serves both static and API)
+
+**Example:**
+
+```javascript
+// Good: Proper API integration
+async function loadTimeline(schoolId) {
+  try {
+    const response = await fetch(`/api/inclusive/${schoolId}/timeline`, {
+      headers: { "Accept": "application/json" }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    const timelineDTO = await response.json();
+    return timelineDTO;
+  } catch (error) {
+    console.error("Error loading timeline:", error);
+    throw error;
+  }
+}
+
+// Avoid: Missing error handling
+async function loadTimeline(schoolId) {
+  const response = await fetch(`/api/inclusive/${schoolId}/timeline`);
+  const data = await response.json();
+  return data; // Will fail if response is not OK
+}
+```
+
+### API Service Pattern
+
+When the codebase grows, organize API calls into service modules:
+
+```javascript
+// js/api/timelineApi.js
+export const timelineApi = {
+  async getTimeline(schoolId) {
+    const response = await fetch(`/api/inclusive/${schoolId}/timeline`, {
+      headers: { "Accept": "application/json" }
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return await response.json();
+  }
+};
+
+// js/api/findingsApi.js
+export const findingsApi = {
+  async getAll() {
+    const response = await fetch(`/api/inclusive/finding`, {
+      headers: { "Accept": "application/json" }
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return await response.json();
+  }
+};
+```
+
+## Security Best Practices
+
+### XSS Prevention
+
+- **Always Escape HTML**: Never insert user content directly into HTML
+- **Use Helper Functions**: Create and use `escapeHtml()` and `escapeAttr()` functions
+- **Sanitize Input**: Validate and sanitize all user inputs
+
+**Example:**
+
+```javascript
+// Good: HTML escaping
+function escapeHtml(str) {
+  if (str == null) return "";
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function escapeAttr(str) {
+  if (str == null) return "";
+  return String(str).replaceAll('"', "&quot;");
+}
+
+// Always escape when rendering
+function renderFindings(findings) {
+  findings.forEach(f => {
+    const html = `
+      <h3>${escapeHtml(f.title)}</h3>
+      <p>${escapeHtml(f.description)}</p>
+      <img src="${escapeAttr(f.imagePath)}" alt="${escapeAttr(f.title)}">
+    `;
+    container.insertAdjacentHTML("beforeend", html);
+  });
+}
+
+// Avoid: Direct HTML insertion (XSS vulnerability)
+function renderFindings(findings) {
+  findings.forEach(f => {
+    const html = `
+      <h3>${f.title}</h3>  <!-- XSS vulnerability! -->
+      <p>${f.description}</p>  <!-- XSS vulnerability! -->
+    `;
+    container.innerHTML += html; // Dangerous!
+  });
+}
+```
+
+### Content Security
+
+- **Validate API Responses**: Validate data structure before rendering
+- **Handle Null/Undefined**: Always check for null/undefined values
+- **Type Checking**: Use `typeof` checks when needed
+
+**Example:**
+
+```javascript
+function renderTimeline(timelineDTO, schoolId) {
+  if (!timelineDTO || !timelineDTO.timelineEntries) {
+    console.warn("Invalid timeline data");
+    return;
+  }
+  
+  const entries = timelineDTO.timelineEntries || [];
+  // Safe rendering...
+}
+```
+
+## Performance Best Practices
+
+### Loading Optimization
+
+- **Lazy Loading**: Load data only when needed
+- **Debouncing**: Debounce scroll and resize events
+- **Image Optimization**: Use appropriate image formats and sizes
+- **Minimize DOM Manipulation**: Batch DOM updates when possible
+
+**Example:**
+
+```javascript
+// Good: Debounced scroll handler
+let scrollTimeout;
+document.addEventListener("scroll", () => {
+  clearTimeout(scrollTimeout);
+  scrollTimeout = setTimeout(() => {
+    // Handle scroll
+  }, 100);
+}, { passive: true });
+```
+
+### Code Organization
+
+- **Function Extraction**: Extract reusable logic into functions
+- **Avoid Global Variables**: Minimize global state
+- **Module Pattern**: Use IIFE or ES modules when codebase grows
+
+**Example:**
+
+```javascript
+// Good: Organized code structure
+(function() {
+  'use strict';
+  
+  // Private helpers
+  const safeQuery = (sel) => document.querySelector(sel);
+  const safeGet = (id) => document.getElementById(id);
+  
+  // Public API
+  window.App = {
+    init: function() {
+      loadTimeline(1);
+      loadFindings();
+    }
+  };
+  
+  // Initialize on DOM ready
+  document.addEventListener("DOMContentLoaded", () => {
+    window.App.init();
+  });
+})();
+```
+
+## Accessibility
+
+### ARIA Attributes
+
+- **ARIA Labels**: Add `aria-label` for icon-only buttons
+- **ARIA Roles**: Use proper ARIA roles when needed
+- **Keyboard Navigation**: Ensure all interactive elements are keyboard accessible
+
+**Example:**
+
+```html
+<!-- Good: Accessible button -->
+<button 
+  id="prev"
+  aria-label="Previous slide"
+  class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white shadow rounded-full p-2">
+  ◀
+</button>
+
+<!-- Good: Accessible modal -->
+<div 
+  id="galleryModal" 
+  role="dialog" 
+  aria-labelledby="gallery-title"
+  aria-modal="true"
+  class="fixed inset-0 bg-black bg-opacity-70 hidden">
+  <h2 id="gallery-title">Gallery</h2>
+</div>
+```
+
+### Semantic HTML
+
+- **Proper Headings**: Use heading hierarchy correctly
+- **Alt Text**: Always include alt text for images
+- **Form Labels**: Associate labels with form inputs
+
+## Testing Standards
+
+### Manual Testing Checklist
+
+- **Cross-Browser Testing**: Test in Chrome, Firefox, Safari, Edge
+- **Responsive Testing**: Test on mobile, tablet, and desktop sizes
+- **API Integration**: Test with real API endpoints
+- **Error Scenarios**: Test error handling and edge cases
+- **Accessibility**: Test with keyboard navigation and screen readers
+
+### Code Quality
+
+- **Browser Console**: Check for JavaScript errors in console
+- **Network Tab**: Monitor API calls and response times
+- **Performance**: Use browser DevTools Performance tab
+- **Lighthouse**: Run Lighthouse audits for performance and accessibility
+
+## Development Workflow
+
+### Git Workflow
+
+- **Feature Branches**: Develop features in separate branches, adding descriptive suffix "-frontend" to allow working in parallel
+- **Descriptive Commits**: Write descriptive commit messages in English
+- **Code Review**: Code review before merging
+- **Small Branches**: Keep branches small and focused
+
+### Development Process
+
+1. **Plan**: Plan the feature and API integration
+2. **HTML Structure**: Create semantic HTML structure
+3. **Styling**: Apply Tailwind CSS classes
+4. **JavaScript**: Implement functionality with proper error handling
+5. **Testing**: Test in multiple browsers and devices
+6. **Security**: Ensure XSS prevention and input validation
+7. **Performance**: Optimize loading and rendering
+
+### File Organization
+
+- **Keep Files Focused**: Each JavaScript file should have a clear purpose
+- **Group Related Code**: Keep related functions together
+- **Comment Complex Logic**: Add comments for complex business logic
+- **Consistent Formatting**: Maintain consistent code formatting
+
+**Example File Structure (as codebase grows):**
+
+```
+js/
+├── main.js                 # Entry point, initialization
+├── api/
+│   ├── timelineApi.js      # Timeline API calls
+│   ├── findingsApi.js      # Findings API calls
+│   └── interviewsApi.js    # Interviews API calls
+├── components/
+│   ├── carousel.js         # Carousel component logic
+│   ├── modal.js            # Modal component logic
+│   └── timeline.js         # Timeline rendering
+└── utils/
+    ├── escapeHtml.js       # XSS prevention utilities
+    └── domHelpers.js      # DOM helper functions
+```
+
+### Tailwind CSS Compilation
+
+If using Tailwind CLI for development:
+
+```bash
+# Watch mode for development
+npx tailwindcss -i ./src/input.css -o ./src/main/resources/static/output.css --watch
+
+# Build for production
+npx tailwindcss -i ./src/input.css -o ./src/main/resources/static/output.css --minify
+```
+
+**Tailwind Config Example:**
+
+```javascript
+// tailwind.config.js
+module.exports = {
+  content: [
+    "./src/main/resources/static/**/*.{html,js}",
+  ],
+  theme: {
+    extend: {
+      // Custom theme extensions
+    },
+  },
+  plugins: [],
+}
+```
+
+This document serves as the foundation for maintaining code quality and consistency across the static frontend application. All team members should follow these practices to ensure a maintainable, secure, and performant codebase.

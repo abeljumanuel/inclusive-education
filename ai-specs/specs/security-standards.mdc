@@ -1,0 +1,906 @@
+---
+description: Security standards, best practices, and validation guidelines based on OWASP Top 10 2021 for Spring Boot backend and vanilla JavaScript frontend applications
+globs: ["src/main/java/**/*.java", "src/main/resources/**/*.{yaml,yml,properties}", "src/main/resources/static/**/*.{html,js}", "src/test/java/**/*.java"]
+alwaysApply: true
+---
+
+# Security Standards and Best Practices
+
+## Table of Contents
+
+- [Overview](#overview)
+- [OWASP Top 10 2021](#owasp-top-10-2021)
+  - [A01:2021 - Broken Access Control](#a012021---broken-access-control)
+  - [A02:2021 - Cryptographic Failures](#a022021---cryptographic-failures)
+  - [A03:2021 - Injection](#a032021---injection)
+  - [A04:2021 - Insecure Design](#a042021---insecure-design)
+  - [A05:2021 - Security Misconfiguration](#a052021---security-misconfiguration)
+  - [A06:2021 - Vulnerable and Outdated Components](#a062021---vulnerable-and-outdated-components)
+  - [A07:2021 - Identification and Authentication Failures](#a072021---identification-and-authentication-failures)
+  - [A08:2021 - Software and Data Integrity Failures](#a082021---software-and-data-integrity-failures)
+  - [A09:2021 - Security Logging and Monitoring Failures](#a092021---security-logging-and-monitoring-failures)
+  - [A10:2021 - Server-Side Request Forgery (SSRF)](#a102021---server-side-request-forgery-ssrf)
+- [Security Validation Checklist](#security-validation-checklist)
+- [Security Testing Requirements](#security-testing-requirements)
+
+---
+
+## Overview
+
+This document outlines security standards, best practices, and validation guidelines based on the OWASP Top 10 2021 security risks. All code must comply with these standards to ensure the application is secure against common web application vulnerabilities.
+
+**Security Principles:**
+- **Defense in Depth**: Implement multiple layers of security controls
+- **Least Privilege**: Grant minimum necessary permissions
+- **Fail Secure**: Default to secure state on failures
+- **Input Validation**: Validate and sanitize all inputs
+- **Output Encoding**: Encode all outputs appropriately
+- **Secure by Default**: Implement secure defaults
+
+---
+
+## OWASP Top 10 2021
+
+### A01:2021 - Broken Access Control
+
+**Description**: Access control enforces policy such that users cannot act outside of their intended permissions.
+
+**Impact**: Unauthorized information disclosure, modification, or destruction of data; performing business functions outside the user's limits.
+
+**Backend Requirements (Spring Boot):**
+
+1. **Authorization Checks**:
+   - Implement role-based access control (RBAC) using Spring Security
+   - Use `@PreAuthorize`, `@PostAuthorize`, or `@Secured` annotations for method-level security
+   - Validate user permissions in service layer before data access
+
+**Example:**
+```java
+@PreAuthorize("hasRole('ADMIN')")
+@GetMapping("/api/admin/users")
+public List<UserDTO> getAllUsers() {
+    return userService.getAllUsers();
+}
+
+@PreAuthorize("#userId == authentication.principal.id")
+@GetMapping("/api/users/{userId}")
+public UserDTO getUserById(@PathVariable Long userId) {
+    return userService.getUserById(userId);
+}
+```
+
+2. **Path Variable Validation**:
+   - Validate path variables match authenticated user context
+   - Prevent horizontal privilege escalation (users accessing other users' data)
+   - Prevent vertical privilege escalation (regular users accessing admin functions)
+
+3. **API Endpoint Security**:
+   - Secure all REST endpoints with appropriate access controls
+   - Document required permissions in API specification
+   - Return 403 Forbidden (not 401 Unauthorized) for authorization failures
+
+**Frontend Requirements (Vanilla JavaScript):**
+
+1. **Client-Side Validation**:
+   - Validate user permissions before rendering protected content
+   - Do not rely on client-side validation alone for security
+   - Hide/disable UI elements for unauthorized actions
+
+**Example:**
+```javascript
+// Validate permission before rendering
+function renderProtectedContent(userRole) {
+  if (userRole !== 'ADMIN') {
+    return; // Don't render admin content
+  }
+  // Render admin content
+}
+```
+
+2. **Error Handling**:
+   - Handle 403 Forbidden responses appropriately
+   - Do not expose sensitive information in error messages
+   - Log authorization failures for security monitoring
+
+**Validation Checklist:**
+- [ ] All REST endpoints have appropriate authorization checks
+- [ ] Path variables are validated against authenticated user context
+- [ ] Authorization failures return 403 (not 404 to avoid information disclosure)
+- [ ] Client-side permission checks are not used as sole security mechanism
+- [ ] API documentation includes required permissions
+
+---
+
+### A02:2021 - Cryptographic Failures
+
+**Description**: Failure related to cryptography, often leading to exposure of sensitive data.
+
+**Impact**: Exposure of sensitive data such as passwords, credit card numbers, health records, personal information, and business secrets.
+
+**Backend Requirements (Spring Boot):**
+
+1. **Data in Transit**:
+   - Use HTTPS/TLS for all communications
+   - Configure TLS 1.2 or higher (TLS 1.3 preferred)
+   - Disable weak cipher suites
+   - Use HSTS (HTTP Strict Transport Security) headers
+
+**Example Configuration:**
+```yaml
+server:
+  ssl:
+    enabled: true
+    protocol: TLS
+    enabled-protocols: TLSv1.3,TLSv1.2
+```
+
+2. **Data at Rest**:
+   - Encrypt sensitive database fields (passwords, PII, payment information)
+   - Use strong encryption algorithms (AES-256)
+   - Store encryption keys securely (use key management services)
+   - Hash passwords using bcrypt, Argon2, or PBKDF2 (never use MD5 or SHA-1)
+
+**Example:**
+```java
+// Use Spring Security PasswordEncoder
+@Bean
+public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder(12); // Strength factor 12
+}
+
+// In service
+String hashedPassword = passwordEncoder.encode(plainPassword);
+```
+
+3. **Password Storage**:
+   - Never store passwords in plain text
+   - Use adaptive hashing algorithms (bcrypt with appropriate cost factor)
+   - Implement password complexity requirements
+   - Use secure random salt generation
+
+4. **Sensitive Data Handling**:
+   - Avoid logging sensitive data (passwords, tokens, credit cards)
+   - Mask sensitive data in error messages
+   - Use environment variables or secure vaults for secrets
+   - Never commit secrets to version control
+
+**Frontend Requirements (Vanilla JavaScript):**
+
+1. **HTTPS Enforcement**:
+   - Ensure all API calls use HTTPS
+   - Implement mixed content prevention
+   - Use secure cookies when applicable
+
+**Example:**
+```javascript
+// Always use HTTPS for API calls
+const API_BASE_URL = 'https://api.example.com';
+
+async function fetchData() {
+  const response = await fetch(`${API_BASE_URL}/api/data`, {
+    method: 'GET',
+    headers: { 'Accept': 'application/json' }
+  });
+  // Handle response
+}
+```
+
+2. **Sensitive Data**:
+   - Never store passwords or tokens in localStorage (use httpOnly cookies)
+   - Clear sensitive data from memory after use
+   - Do not log sensitive information to console
+   - Use secure storage for client-side sensitive data if needed
+
+**Validation Checklist:**
+- [ ] HTTPS/TLS is enabled and properly configured
+- [ ] Passwords are hashed using bcrypt or stronger algorithms
+- [ ] Sensitive data is encrypted at rest
+- [ ] Secrets are stored in environment variables or secure vaults
+- [ ] No sensitive data is logged or exposed in error messages
+- [ ] Strong TLS protocols and cipher suites are used
+
+---
+
+### A03:2021 - Injection
+
+**Description**: Injection flaws occur when untrusted data is sent to an interpreter as part of a command or query.
+
+**Impact**: Data loss, corruption, disclosure to unauthorized parties, loss of accountability, denial of access, or complete host takeover.
+
+**Backend Requirements (Spring Boot):**
+
+1. **SQL Injection Prevention**:
+   - Use Spring Data JPA with parameterized queries (always use)
+   - Use named parameters in `@Query` annotations
+   - Never concatenate user input into SQL queries
+   - Use prepared statements for custom queries
+
+**Example:**
+```java
+// Good: Parameterized query
+@Query("SELECT t FROM TimeLine t WHERE t.school.id = :schoolId ORDER BY t.year ASC")
+List<TimeLine> findBySchoolId(@Param("schoolId") Long schoolId);
+
+// Bad: SQL injection risk (NEVER DO THIS)
+@Query("SELECT * FROM timeline WHERE school_id = " + schoolId)
+List<TimeLine> findBySchoolId(Long schoolId);
+```
+
+2. **Input Validation**:
+   - Use Jakarta Bean Validation (`@NotNull`, `@Size`, `@Pattern`, `@Valid`)
+   - Validate all inputs at controller layer
+   - Whitelist validation (only allow expected characters/patterns)
+   - Reject malformed input immediately
+
+**Example:**
+```java
+@PostMapping("/api/schools")
+public ResponseEntity<SchoolDTO> createSchool(@Valid @RequestBody CreateSchoolRequest request) {
+    // Validation happens automatically via @Valid
+    SchoolDTO school = schoolService.create(request);
+    return ResponseEntity.status(HttpStatus.CREATED).body(school);
+}
+
+public class CreateSchoolRequest {
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Pattern(regexp = "^[a-zA-Z0-9\\s\\-']+$")
+    private String fullName;
+    
+    // More fields with validation
+}
+```
+
+3. **Command Injection Prevention**:
+   - Avoid executing system commands with user input
+   - If necessary, use whitelisting for allowed commands
+   - Sanitize all command parameters
+   - Use process builders with restricted permissions
+
+4. **LDAP/NoSQL Injection**:
+   - Use parameterized queries for all database operations
+   - Validate input before database operations
+   - Use ORM methods instead of raw queries when possible
+
+**Frontend Requirements (Vanilla JavaScript):**
+
+1. **XSS Prevention**:
+   - Always escape HTML content using `escapeHtml()` function
+   - Escape attribute values using `escapeAttr()` function
+   - Use `textContent` instead of `innerHTML` when possible
+   - Never use `eval()` or `Function()` constructor with user input
+
+**Example:**
+```javascript
+// Good: Escape HTML content
+function renderContent(userInput) {
+  const container = document.getElementById('content');
+  container.textContent = userInput; // Safe - textContent auto-escapes
+  // Or if HTML is needed:
+  container.innerHTML = escapeHtml(userInput); // Custom escape function
+}
+
+// Bad: XSS vulnerability (NEVER DO THIS)
+function renderContent(userInput) {
+  const container = document.getElementById('content');
+  container.innerHTML = userInput; // Dangerous!
+}
+
+// Escape HTML function
+function escapeHtml(str) {
+  if (str == null) return "";
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+```
+
+2. **Content Security Policy (CSP)**:
+   - Implement CSP headers to prevent XSS
+   - Restrict script sources
+   - Use nonce or hash for inline scripts if needed
+
+3. **Input Validation**:
+   - Validate input format before sending to backend
+   - Provide user-friendly error messages
+   - Never trust client-side validation alone
+
+**Validation Checklist:**
+- [ ] All database queries use parameterized queries
+- [ ] Input validation is implemented at controller layer
+- [ ] All user input is properly escaped before output
+- [ ] No SQL concatenation with user input
+- [ ] XSS prevention functions are used consistently
+- [ ] CSP headers are implemented
+- [ ] No use of `eval()` or `Function()` with user input
+
+---
+
+### A04:2021 - Insecure Design
+
+**Description**: Insecure design is a broad category representing different weaknesses, expressed as "missing or ineffective control design."
+
+**Impact**: Inadequate security controls, poor threat modeling, weak security architecture.
+
+**Requirements:**
+
+1. **Secure Design Principles**:
+   - Follow secure design principles from the start
+   - Implement threat modeling during design phase
+   - Use security patterns (defense in depth, least privilege)
+   - Document security assumptions and requirements
+
+2. **API Design**:
+   - Design APIs with security in mind
+   - Implement rate limiting to prevent abuse
+   - Use appropriate HTTP status codes
+   - Implement proper error handling without information disclosure
+
+3. **Data Validation**:
+   - Validate data at multiple layers
+   - Implement business rule validation
+   - Use strong data types (avoid string for IDs, dates, etc.)
+   - Enforce data constraints at database level
+
+4. **Error Handling**:
+   - Do not expose internal errors to users
+   - Log detailed errors server-side
+   - Provide generic error messages to clients
+   - Avoid information disclosure in error responses
+
+**Example:**
+```java
+// Good: Generic error message to client
+catch (EntityNotFoundException e) {
+    log.error("Entity not found: {}", e.getMessage(), e);
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(new ErrorResponse("Resource not found"));
+}
+
+// Bad: Information disclosure (NEVER DO THIS)
+catch (EntityNotFoundException e) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(new ErrorResponse("EntityNotFoundException: " + e.getMessage() + " at " + e.getStackTrace()[0]));
+}
+```
+
+**Validation Checklist:**
+- [ ] Security is considered during design phase
+- [ ] APIs are designed with security principles
+- [ ] Error handling does not expose sensitive information
+- [ ] Rate limiting is implemented where appropriate
+- [ ] Business rules are validated and enforced
+
+---
+
+### A05:2021 - Security Misconfiguration
+
+**Description**: Security misconfiguration is the most commonly seen issue, typically as a result of insecure default configurations, incomplete or ad hoc configurations, open cloud storage, misconfigured HTTP headers, and verbose error messages.
+
+**Impact**: Unauthorized access to system data or functionality, complete system compromise.
+
+**Backend Requirements (Spring Boot):**
+
+1. **Default Configurations**:
+   - Change default passwords and usernames
+   - Disable unnecessary features and services
+   - Remove default accounts and test data in production
+   - Use production-ready security configurations
+
+2. **HTTP Headers**:
+   - Implement security headers (HSTS, CSP, X-Frame-Options, X-Content-Type-Options)
+   - Configure CORS properly (restrict origins, methods, headers)
+   - Remove server version information from headers
+
+**Example Configuration:**
+```java
+@Configuration
+public class SecurityHeadersConfig implements WebMvcConfigurer {
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new HandlerInterceptorAdapter() {
+            @Override
+            public void postHandle(HttpServletRequest request, 
+                                 HttpServletResponse response, 
+                                 Object handler, 
+                                 ModelAndView modelAndView) {
+                response.setHeader("X-Content-Type-Options", "nosniff");
+                response.setHeader("X-Frame-Options", "DENY");
+                response.setHeader("X-XSS-Protection", "1; mode=block");
+                response.setHeader("Strict-Transport-Security", 
+                    "max-age=31536000; includeSubDomains");
+            }
+        });
+    }
+}
+```
+
+3. **Error Handling**:
+   - Disable verbose error messages in production
+   - Use custom error pages
+   - Do not expose stack traces to users
+   - Log errors server-side with appropriate detail
+
+4. **Database Configuration**:
+   - Use least privilege database users
+   - Disable unnecessary database features
+   - Use connection pooling with appropriate limits
+   - Encrypt database connections
+
+5. **Application Configuration**:
+   - Use environment-specific configuration files
+   - Keep secrets out of configuration files
+   - Use Spring profiles for different environments
+   - Validate configuration on startup
+
+**Frontend Requirements (Vanilla JavaScript):**
+
+1. **Content Security Policy**:
+   - Implement CSP headers to prevent XSS
+   - Restrict script sources
+   - Restrict inline scripts and styles
+
+2. **CORS Configuration**:
+   - Verify CORS is properly configured
+   - Do not allow wildcard origins in production
+   - Restrict allowed methods and headers
+
+**Validation Checklist:**
+- [ ] Default passwords and accounts are changed
+- [ ] Security headers are implemented
+- [ ] CORS is properly configured
+- [ ] Error messages do not expose sensitive information
+- [ ] Unnecessary features are disabled
+- [ ] Configuration uses environment-specific settings
+- [ ] Secrets are not hardcoded in configuration files
+
+---
+
+### A06:2021 - Vulnerable and Outdated Components
+
+**Description**: Using components (libraries, frameworks, and other software modules) with known vulnerabilities.
+
+**Impact**: Various attacks, including injection, broken access control, denial of service, etc.
+
+**Requirements:**
+
+1. **Dependency Management**:
+   - Keep all dependencies up to date
+   - Regularly review and update dependencies
+   - Remove unused dependencies
+   - Monitor for security vulnerabilities
+
+2. **Vulnerability Scanning**:
+   - Use dependency scanning tools (OWASP Dependency-Check, Snyk, etc.)
+   - Integrate scanning into CI/CD pipeline
+   - Fix vulnerabilities promptly
+   - Maintain a dependency inventory
+
+**Example (Gradle):**
+```gradle
+// Use OWASP Dependency-Check plugin
+plugins {
+    id 'org.owasp.dependencycheck' version '8.0.0'
+}
+
+dependencyCheck {
+    format = 'ALL'
+    failBuildOnCVSS = 7.0
+}
+```
+
+3. **Version Management**:
+   - Use specific versions (avoid `+` or `latest` in version declarations)
+   - Document why specific versions are used
+   - Test updates before deploying to production
+   - Keep a changelog of dependency updates
+
+4. **Security Updates**:
+   - Subscribe to security advisories for dependencies
+   - Apply security patches promptly
+   - Have a process for emergency updates
+   - Test security updates thoroughly
+
+**Validation Checklist:**
+- [ ] Dependencies are regularly updated
+- [ ] Vulnerability scanning is integrated into build process
+- [ ] Known vulnerabilities are fixed promptly
+- [ ] Dependency versions are pinned (not using wildcards)
+- [ ] Unused dependencies are removed
+- [ ] Security advisories are monitored
+
+---
+
+### A07:2021 - Identification and Authentication Failures
+
+**Description**: Authentication mechanisms are often implemented incorrectly, allowing attackers to compromise passwords, keys, or session tokens.
+
+**Impact**: User impersonation, unauthorized access, account takeover.
+
+**Backend Requirements (Spring Boot):**
+
+1. **Authentication Implementation**:
+   - Use Spring Security for authentication
+   - Implement strong password policies
+   - Use secure session management
+   - Implement account lockout after failed attempts
+
+2. **Password Requirements**:
+   - Enforce minimum password length (12+ characters recommended)
+   - Require complexity (uppercase, lowercase, numbers, special characters)
+   - Prohibit common passwords
+   - Implement password history to prevent reuse
+
+3. **Session Management**:
+   - Use secure, random session tokens
+   - Implement session timeout
+   - Regenerate session ID after login
+   - Use httpOnly and secure cookie flags
+   - Implement CSRF protection
+
+**Example:**
+```java
+@Configuration
+public class SecurityConfig {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false)
+            )
+            .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+            // More configuration
+        return http.build();
+    }
+}
+```
+
+4. **Multi-Factor Authentication (MFA)**:
+   - Implement MFA for sensitive operations
+   - Use time-based one-time passwords (TOTP)
+   - Provide backup codes for account recovery
+
+5. **Password Storage**:
+   - Hash passwords using bcrypt, Argon2, or PBKDF2
+   - Use appropriate cost factors (12+ for bcrypt)
+   - Never store passwords in plain text
+   - Use secure random salt generation
+
+**Frontend Requirements (Vanilla JavaScript):**
+
+1. **Authentication Forms**:
+   - Implement client-side validation for user experience
+   - Do not store credentials in localStorage or sessionStorage
+   - Clear form data after submission
+   - Provide clear error messages
+
+2. **Session Handling**:
+   - Handle authentication tokens securely (use httpOnly cookies)
+   - Implement logout functionality
+   - Handle session expiration gracefully
+   - Clear sensitive data on logout
+
+**Validation Checklist:**
+- [ ] Strong password policies are enforced
+- [ ] Passwords are hashed using secure algorithms
+- [ ] Session management is secure
+- [ ] Account lockout is implemented
+- [ ] CSRF protection is enabled
+- [ ] MFA is implemented for sensitive operations
+- [ ] Authentication tokens are stored securely
+
+---
+
+### A08:2021 - Software and Data Integrity Failures
+
+**Description**: Failures related to code and infrastructure that do not protect against integrity violations.
+
+**Impact**: Unauthorized code execution, supply chain attacks, unauthorized access.
+
+**Requirements:**
+
+1. **Code Integrity**:
+   - Use version control (Git) for all code
+   - Implement code review process
+   - Use signed commits where possible
+   - Protect main/master branches
+
+2. **Dependency Integrity**:
+   - Use dependency verification (checksums, signatures)
+   - Use private repositories for internal dependencies
+   - Verify package integrity before installation
+   - Monitor for tampered packages
+
+**Example (Gradle):**
+```gradle
+// Enable dependency verification
+dependencyVerification {
+    verifySignatures = true
+}
+```
+
+3. **CI/CD Security**:
+   - Secure CI/CD pipelines
+   - Use secure secrets management
+   - Verify build artifacts
+   - Implement automated security testing
+
+4. **Data Integrity**:
+   - Implement data validation at multiple layers
+   - Use database constraints
+   - Implement checksums for critical data
+   - Log data modifications
+
+5. **Supply Chain Security**:
+   - Verify third-party components
+   - Use trusted repositories
+   - Monitor for compromised packages
+   - Implement software bill of materials (SBOM)
+
+**Validation Checklist:**
+- [ ] Code is version controlled
+- [ ] Code review process is implemented
+- [ ] Dependency verification is enabled
+- [ ] CI/CD pipelines are secured
+- [ ] Data integrity is validated
+- [ ] Supply chain risks are monitored
+
+---
+
+### A09:2021 - Security Logging and Monitoring Failures
+
+**Description**: Insufficient logging and monitoring enable attackers to maintain persistence, pivot to more systems, and tamper with, extract, or destroy data.
+
+**Impact**: Delayed detection of security incidents, inability to investigate attacks.
+
+**Backend Requirements (Spring Boot):**
+
+1. **Logging Requirements**:
+   - Log all authentication attempts (successful and failed)
+   - Log authorization failures (403 responses)
+   - Log security-relevant events (password changes, privilege escalations)
+   - Log errors and exceptions with sufficient context
+
+**Example:**
+```java
+@Service
+public class SecurityEventLogger {
+    private static final Logger log = LoggerFactory.getLogger(SecurityEventLogger.class);
+    
+    public void logAuthenticationFailure(String username, String reason) {
+        log.warn("Authentication failure for user: {} - Reason: {}", username, reason);
+    }
+    
+    public void logAuthorizationFailure(String username, String resource) {
+        log.warn("Authorization failure: User {} attempted to access {}", username, resource);
+    }
+    
+    public void logSensitiveOperation(String username, String operation) {
+        log.info("Sensitive operation: User {} performed {}", username, operation);
+    }
+}
+```
+
+2. **Log Content**:
+   - Include timestamps in all logs
+   - Include user context (username, IP address, session ID)
+   - Do not log sensitive data (passwords, tokens, credit cards)
+   - Use structured logging when possible
+
+3. **Log Storage**:
+   - Store logs securely
+   - Implement log retention policies
+   - Protect logs from tampering
+   - Use centralized logging for production
+
+4. **Monitoring**:
+   - Monitor for suspicious activities
+   - Set up alerts for security events
+   - Implement log analysis
+   - Monitor for patterns indicating attacks
+
+**Frontend Requirements (Vanilla JavaScript):**
+
+1. **Client-Side Logging**:
+   - Log security-relevant client-side events
+   - Do not log sensitive information
+   - Send security events to backend for logging
+   - Implement client-side error tracking
+
+**Example:**
+```javascript
+// Log security-relevant events
+function logSecurityEvent(eventType, details) {
+  fetch('/api/log/security', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      eventType: eventType,
+      details: details,
+      timestamp: new Date().toISOString()
+    })
+  }).catch(err => console.error('Failed to log security event:', err));
+}
+
+// Example usage
+logSecurityEvent('AUTHORIZATION_FAILURE', {
+  resource: '/api/admin/users',
+  reason: 'Insufficient permissions'
+});
+```
+
+2. **Error Tracking**:
+   - Track client-side errors
+   - Send error reports to backend
+   - Include context but not sensitive data
+   - Use error tracking services if needed
+
+**Validation Checklist:**
+- [ ] Authentication attempts are logged
+- [ ] Authorization failures are logged
+- [ ] Security-relevant events are logged
+- [ ] Logs include sufficient context (timestamp, user, IP)
+- [ ] Sensitive data is not logged
+- [ ] Log retention policies are implemented
+- [ ] Security monitoring is implemented
+- [ ] Alerts are configured for security events
+
+---
+
+### A10:2021 - Server-Side Request Forgery (SSRF)
+
+**Description**: SSRF flaws occur whenever a web application is fetching a remote resource without validating the user-supplied URL.
+
+**Impact**: Access to internal resources, port scanning, remote code execution.
+
+**Backend Requirements (Spring Boot):**
+
+1. **URL Validation**:
+   - Validate and sanitize all user-supplied URLs
+   - Whitelist allowed URL patterns
+   - Block private IP addresses and localhost
+   - Prevent protocol schemes (file://, ftp://, etc.)
+
+**Example:**
+```java
+public class UrlValidator {
+    private static final Pattern ALLOWED_PATTERN = 
+        Pattern.compile("^https?://(?:[\\w\\-]+\\.)+[a-zA-Z]{2,}(?:/.*)?$");
+    
+    private static final Set<String> BLOCKED_IPS = Set.of(
+        "127.0.0.1", "localhost", "0.0.0.0",
+        "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"
+    );
+    
+    public boolean isValidUrl(String url) {
+        if (!ALLOWED_PATTERN.matcher(url).matches()) {
+            return false;
+        }
+        try {
+            URI uri = new URI(url);
+            String host = uri.getHost();
+            if (BLOCKED_IPS.contains(host)) {
+                return false;
+            }
+            return true;
+        } catch (URISyntaxException e) {
+            return false;
+        }
+    }
+}
+```
+
+2. **Network Access Controls**:
+   - Restrict outbound network connections
+   - Use network segmentation
+   - Implement firewall rules
+   - Monitor outbound connections
+
+3. **Response Handling**:
+   - Do not return raw responses from external URLs
+   - Validate response content type
+   - Limit response size
+   - Timeout external requests
+
+4. **Alternative Approaches**:
+   - Use whitelist of allowed URLs instead of user-supplied URLs
+   - Use internal proxies for external requests
+   - Implement URL shortening services securely
+
+**Frontend Requirements (Vanilla JavaScript):**
+
+1. **URL Handling**:
+   - Validate URLs before sending to backend
+   - Do not make requests to user-supplied URLs directly
+   - Use backend API for all external requests
+   - Sanitize URLs displayed to users
+
+**Validation Checklist:**
+- [ ] User-supplied URLs are validated
+- [ ] Private IP addresses are blocked
+- [ ] Allowed URL patterns are whitelisted
+- [ ] External requests are handled server-side
+- [ ] Response content is validated
+- [ ] Request timeouts are implemented
+- [ ] Network access is restricted appropriately
+
+---
+
+## Security Validation Checklist
+
+Use this checklist when implementing new features or reviewing code:
+
+### General Security
+- [ ] Input validation is implemented at appropriate layers
+- [ ] Output encoding/escaping is used consistently
+- [ ] Error handling does not expose sensitive information
+- [ ] Security headers are configured
+- [ ] HTTPS/TLS is properly configured
+- [ ] Secrets are not hardcoded or committed to version control
+
+### Authentication & Authorization
+- [ ] Strong password policies are enforced
+- [ ] Passwords are hashed using secure algorithms
+- [ ] Session management is secure
+- [ ] Access control is implemented appropriately
+- [ ] Authorization checks are in place
+
+### Data Protection
+- [ ] Sensitive data is encrypted at rest and in transit
+- [ ] Sensitive data is not logged
+- [ ] Database queries use parameterized queries
+- [ ] SQL injection prevention is in place
+
+### Code Quality
+- [ ] Dependencies are up to date
+- [ ] Known vulnerabilities are addressed
+- [ ] Code follows security best practices
+- [ ] Security testing is performed
+
+---
+
+## Security Testing Requirements
+
+### Unit Testing
+- Test input validation functions
+- Test authorization checks
+- Test error handling
+- Test XSS prevention functions
+
+### Integration Testing
+- Test authentication flows
+- Test authorization enforcement
+- Test API endpoint security
+- Test database query security
+
+### Security Testing Tools
+- **Dependency Scanning**: OWASP Dependency-Check, Snyk
+- **Static Analysis**: SpotBugs, PMD, Checkstyle
+- **Dynamic Analysis**: OWASP ZAP, Burp Suite
+- **Penetration Testing**: Regular security assessments
+
+### Security Review Process
+1. Code review includes security checklist
+2. Security testing before deployment
+3. Regular security assessments
+4. Incident response plan
+5. Security training for developers
+
+---
+
+## References
+
+- [OWASP Top 10 2021](https://owasp.org/Top10/)
+- [OWASP Application Security Verification Standard (ASVS)](https://owasp.org/www-project-application-security-verification-standard/)
+- [Spring Security Reference](https://docs.spring.io/spring-security/reference/)
+- [OWASP Java Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Java_Cheat_Sheet.html)
+- [OWASP JavaScript Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/JavaScript_Cheat_Sheet.html)
+
+---
+
+This document should be reviewed and updated regularly to address emerging security threats and incorporate the latest best practices.

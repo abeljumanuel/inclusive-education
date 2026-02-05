@@ -1,0 +1,719 @@
+2026-01-28T16:56:37.031-05:00  INFO 55844 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Starting LandingBackendApplication using Java 21.0.9 with PID 55844 (/Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend/build/classes/java/main started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T16:56:37.033-05:00  INFO 55844 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T16:56:37.227-05:00  INFO 55844 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-28T16:56:37.273-05:00  INFO 55844 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 42 ms. Found 7 JPA repository interfaces.
+2026-01-28T16:56:37.412-05:00  INFO 55844 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-28T16:56:37.416-05:00  INFO 55844 --- [landing-backend] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-28T16:56:37.417-05:00  INFO 55844 --- [landing-backend] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-28T16:56:37.433-05:00  INFO 55844 --- [landing-backend] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-28T16:56:37.433-05:00  INFO 55844 --- [landing-backend] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 388 ms
+2026-01-28T16:56:37.515-05:00  INFO 55844 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-28T16:56:38.538-05:00  WARN 55844 --- [landing-backend] [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SQL State  : 08001
+Error Code : 0
+Message    : Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+
+2026-01-28T16:56:38.543-05:00  INFO 55844 --- [landing-backend] [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-01-28T16:56:38.553-05:00  INFO 55844 --- [landing-backend] [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-28T16:56:38.559-05:00 ERROR 55844 --- [landing-backend] [main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SQL State  : 08001
+Error Code : 0
+Message    : Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:328) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:973) ~[spring-context-6.2.12.jar:6.2.12]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.12.jar:6.2.12]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.5.7.jar:3.5.7]
+	at com.inclusive.landing.LandingBackendApplication.main(LandingBackendApplication.java:10) ~[main/:na]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SQL State  : 08001
+Error Code : 0
+Message    : Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315) ~[spring-beans-6.2.12.jar:6.2.12]
+	... 10 common frames omitted
+Caused by: org.flywaydb.core.internal.exception.FlywaySqlException: Unable to obtain connection from database: Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SQL State  : 08001
+Error Code : 0
+Message    : Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+
+	at org.flywaydb.core.internal.jdbc.JdbcUtils.openConnection(JdbcUtils.java:71) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.internal.jdbc.JdbcConnectionFactory.<init>(JdbcConnectionFactory.java:76) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.FlywayExecutor.execute(FlywayExecutor.java:136) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.Flyway.migrate(Flyway.java:188) ~[flyway-core-11.7.2.jar:na]
+	at org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer.afterPropertiesSet(FlywayMigrationInitializer.java:66) ~[spring-boot-autoconfigure-3.5.7.jar:3.5.7]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822) ~[spring-beans-6.2.12.jar:6.2.12]
+	... 17 common frames omitted
+Caused by: org.postgresql.util.PSQLException: Connection to localhost:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:373) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:57) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:279) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.Driver.makeConnection(Driver.java:448) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.Driver.connect(Driver.java:298) ~[postgresql-42.7.8.jar:42.7.8]
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:576) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:97) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-6.3.3.jar:na]
+	at org.flywaydb.core.internal.jdbc.JdbcUtils.openConnection(JdbcUtils.java:59) ~[flyway-core-11.7.2.jar:na]
+	... 23 common frames omitted
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:682) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592) ~[na:na]
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:751) ~[na:na]
+	at org.postgresql.core.PGStream.createSocket(PGStream.java:261) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.core.PGStream.<init>(PGStream.java:122) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:146) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:289) ~[postgresql-42.7.8.jar:42.7.8]
+	... 35 common frames omitted
+
+2026-01-28T17:12:20.664-05:00  INFO 58374 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Starting LandingBackendApplication using Java 21.0.9 with PID 58374 (/Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend/build/classes/java/main started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:12:20.667-05:00  INFO 58374 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:12:21.080-05:00  INFO 58374 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-28T17:12:21.130-05:00  INFO 58374 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 46 ms. Found 7 JPA repository interfaces.
+2026-01-28T17:12:21.380-05:00  INFO 58374 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-28T17:12:21.386-05:00  INFO 58374 --- [landing-backend] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-28T17:12:21.386-05:00  INFO 58374 --- [landing-backend] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-28T17:12:21.409-05:00  INFO 58374 --- [landing-backend] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-28T17:12:21.410-05:00  INFO 58374 --- [landing-backend] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 718 ms
+2026-01-28T17:12:21.545-05:00  INFO 58374 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-28T17:12:21.641-05:00  INFO 58374 --- [landing-backend] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@129c4d19
+2026-01-28T17:12:21.642-05:00  INFO 58374 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-28T17:12:21.660-05:00  INFO 58374 --- [landing-backend] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/landingdb (PostgreSQL 15.15)
+2026-01-28T17:12:21.714-05:00  INFO 58374 --- [landing-backend] [main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.022s)
+2026-01-28T17:12:21.741-05:00  INFO 58374 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 007
+2026-01-28T17:12:21.743-05:00  INFO 58374 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-01-28T17:12:21.796-05:00  INFO 58374 --- [landing-backend] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-28T17:12:21.830-05:00  INFO 58374 --- [landing-backend] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-28T17:12:21.847-05:00  INFO 58374 --- [landing-backend] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-28T17:12:21.960-05:00  INFO 58374 --- [landing-backend] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-28T17:12:21.986-05:00  WARN 58374 --- [landing-backend] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-28T17:12:21.993-05:00  INFO 58374 --- [landing-backend] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-28T17:12:22.345-05:00  INFO 58374 --- [landing-backend] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-28T17:12:22.375-05:00  INFO 58374 --- [landing-backend] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-28T17:12:22.541-05:00  WARN 58374 --- [landing-backend] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-28T17:12:22.548-05:00  INFO 58374 --- [landing-backend] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:12:22.680-05:00  INFO 58374 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-28T17:12:22.684-05:00  INFO 58374 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Started LandingBackendApplication in 2.268 seconds (process running for 2.706)
+2026-01-28T17:12:37.427-05:00  INFO 58374 --- [landing-backend] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-28T17:12:37.427-05:00  INFO 58374 --- [landing-backend] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-28T17:12:37.429-05:00  INFO 58374 --- [landing-backend] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-01-28T17:12:37.517-05:00 DEBUG 58374 --- [landing-backend] [http-nio-8080-exec-6] org.hibernate.SQL                        : select s1_0.id,s1_0.city,s1_0.created_at,s1_0.department,s1_0.full_name,s1_0.short_name from school s1_0 where s1_0.id=?
+2026-01-28T17:12:37.517-05:00 DEBUG 58374 --- [landing-backend] [http-nio-8080-exec-5] org.hibernate.SQL                        : select s1_0.id,s1_0.city,s1_0.created_at,s1_0.department,s1_0.full_name,s1_0.short_name from school s1_0 where s1_0.id=?
+2026-01-28T17:12:37.543-05:00 DEBUG 58374 --- [landing-backend] [http-nio-8080-exec-8] org.hibernate.SQL                        : select i1_0.id,i1_0.created_at,i1_0.interviewee_name,i1_0.interviewee_position,i1_0.quote,i1_0.school_id,i1_0.url_audio,i1_0.url_file from interview i1_0
+2026-01-28T17:12:37.543-05:00 DEBUG 58374 --- [landing-backend] [http-nio-8080-exec-9] org.hibernate.SQL                        : select a1_0.id,a1_0.created_at,a1_0.description,a1_0.function_title,a1_0.function_url,a1_0.icon_description,a1_0.icon_title,a1_0.title from appendix a1_0
+2026-01-28T17:12:37.543-05:00 DEBUG 58374 --- [landing-backend] [http-nio-8080-exec-10] org.hibernate.SQL                        : select i1_0.id,i1_0.description,i1_0.url_image from image i1_0
+2026-01-28T17:12:37.543-05:00 DEBUG 58374 --- [landing-backend] [http-nio-8080-exec-7] org.hibernate.SQL                        : select f1_0.id,f1_0.created_at,f1_0.description,f1_0.icon_title,f1_0.title from finding f1_0
+2026-01-28T17:12:37.545-05:00 DEBUG 58374 --- [landing-backend] [http-nio-8080-exec-5] org.hibernate.SQL                        : select tl1_0.id,tl1_0.created_at,tl1_0.description,tl1_0.school_id,tl1_0.title,tl1_0.year from timeline tl1_0 left join school s1_0 on s1_0.id=tl1_0.school_id where s1_0.id=? order by tl1_0.year
+2026-01-28T17:12:37.545-05:00 DEBUG 58374 --- [landing-backend] [http-nio-8080-exec-6] org.hibernate.SQL                        : select tl1_0.id,tl1_0.created_at,tl1_0.description,tl1_0.school_id,tl1_0.title,tl1_0.year from timeline tl1_0 left join school s1_0 on s1_0.id=tl1_0.school_id where s1_0.id=? order by tl1_0.year
+2026-01-28T17:12:37.548-05:00 DEBUG 58374 --- [landing-backend] [http-nio-8080-exec-8] org.hibernate.SQL                        : select s1_0.id,s1_0.city,s1_0.created_at,s1_0.department,s1_0.full_name,s1_0.short_name from school s1_0 where s1_0.id=?
+2026-01-28T17:12:37.550-05:00 DEBUG 58374 --- [landing-backend] [http-nio-8080-exec-8] org.hibernate.SQL                        : select s1_0.id,s1_0.city,s1_0.created_at,s1_0.department,s1_0.full_name,s1_0.short_name from school s1_0 where s1_0.id=?
+2026-01-28T17:12:37.550-05:00 DEBUG 58374 --- [landing-backend] [http-nio-8080-exec-7] org.hibernate.SQL                        : select mf1_0.id,mf1_0.created_at,mf1_0.description,f1_0.id,f1_0.created_at,f1_0.description,f1_0.icon_title,f1_0.title,mf1_0.image_path,mf1_0.title from modal_finding mf1_0 left join finding f1_0 on f1_0.id=mf1_0.finding_id where mf1_0.finding_id=?
+2026-01-28T17:12:37.555-05:00 DEBUG 58374 --- [landing-backend] [http-nio-8080-exec-7] org.hibernate.SQL                        : select mf1_0.id,mf1_0.created_at,mf1_0.description,f1_0.id,f1_0.created_at,f1_0.description,f1_0.icon_title,f1_0.title,mf1_0.image_path,mf1_0.title from modal_finding mf1_0 left join finding f1_0 on f1_0.id=mf1_0.finding_id where mf1_0.finding_id=?
+2026-01-28T17:12:37.557-05:00 DEBUG 58374 --- [landing-backend] [http-nio-8080-exec-7] org.hibernate.SQL                        : select mf1_0.id,mf1_0.created_at,mf1_0.description,f1_0.id,f1_0.created_at,f1_0.description,f1_0.icon_title,f1_0.title,mf1_0.image_path,mf1_0.title from modal_finding mf1_0 left join finding f1_0 on f1_0.id=mf1_0.finding_id where mf1_0.finding_id=?
+2026-01-28T17:12:37.559-05:00 DEBUG 58374 --- [landing-backend] [http-nio-8080-exec-7] org.hibernate.SQL                        : select mf1_0.id,mf1_0.created_at,mf1_0.description,f1_0.id,f1_0.created_at,f1_0.description,f1_0.icon_title,f1_0.title,mf1_0.image_path,mf1_0.title from modal_finding mf1_0 left join finding f1_0 on f1_0.id=mf1_0.finding_id where mf1_0.finding_id=?
+2026-01-28T17:13:00.116-05:00  INFO 58374 --- [landing-backend] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-28T17:13:00.123-05:00  INFO 58374 --- [landing-backend] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-28T17:13:00.126-05:00  INFO 58374 --- [landing-backend] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-28T17:13:00.127-05:00  INFO 58374 --- [landing-backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-01-28T17:13:00.128-05:00  INFO 58374 --- [landing-backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-01-28T17:13:54.204-05:00  INFO 59169 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Starting LandingBackendApplication using Java 21.0.9 with PID 59169 (/Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend/build/classes/java/main started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:13:54.206-05:00  INFO 59169 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:13:54.544-05:00  INFO 59169 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-28T17:13:54.593-05:00  INFO 59169 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 43 ms. Found 7 JPA repository interfaces.
+2026-01-28T17:13:54.856-05:00  INFO 59169 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-28T17:13:54.862-05:00  INFO 59169 --- [landing-backend] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-28T17:13:54.862-05:00  INFO 59169 --- [landing-backend] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-28T17:13:54.889-05:00  INFO 59169 --- [landing-backend] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-28T17:13:54.890-05:00  INFO 59169 --- [landing-backend] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 661 ms
+2026-01-28T17:13:55.021-05:00  INFO 59169 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-28T17:13:55.106-05:00  INFO 59169 --- [landing-backend] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@60591e1b
+2026-01-28T17:13:55.107-05:00  INFO 59169 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-28T17:13:55.121-05:00  INFO 59169 --- [landing-backend] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/landingdb (PostgreSQL 15.15)
+2026-01-28T17:13:55.150-05:00  INFO 59169 --- [landing-backend] [main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.015s)
+2026-01-28T17:13:55.187-05:00  INFO 59169 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 007
+2026-01-28T17:13:55.189-05:00  INFO 59169 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-01-28T17:13:55.239-05:00  INFO 59169 --- [landing-backend] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-28T17:13:55.257-05:00  INFO 59169 --- [landing-backend] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-28T17:13:55.269-05:00  INFO 59169 --- [landing-backend] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-28T17:13:55.379-05:00  INFO 59169 --- [landing-backend] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-28T17:13:55.403-05:00  WARN 59169 --- [landing-backend] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-28T17:13:55.409-05:00  INFO 59169 --- [landing-backend] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-28T17:13:55.744-05:00  INFO 59169 --- [landing-backend] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-28T17:13:55.763-05:00  INFO 59169 --- [landing-backend] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-28T17:13:55.933-05:00  WARN 59169 --- [landing-backend] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-28T17:13:55.941-05:00  INFO 59169 --- [landing-backend] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:13:56.059-05:00  INFO 59169 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-28T17:13:56.063-05:00  INFO 59169 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Started LandingBackendApplication in 2.095 seconds (process running for 2.436)
+2026-01-28T17:14:23.167-05:00  INFO 59169 --- [landing-backend] [http-nio-8080-exec-5] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-28T17:14:23.167-05:00  INFO 59169 --- [landing-backend] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-28T17:14:23.168-05:00  INFO 59169 --- [landing-backend] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-01-28T17:15:24.220-05:00  INFO 59169 --- [landing-backend] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-28T17:15:24.224-05:00  INFO 59169 --- [landing-backend] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-28T17:15:24.227-05:00  INFO 59169 --- [landing-backend] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-28T17:15:24.229-05:00  INFO 59169 --- [landing-backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-01-28T17:15:24.231-05:00  INFO 59169 --- [landing-backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-01-28T17:17:52.845-05:00  INFO 60822 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Starting LandingBackendApplication using Java 21.0.9 with PID 60822 (/Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend/build/classes/java/main started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:17:52.846-05:00  INFO 60822 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:17:53.050-05:00  INFO 60822 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-28T17:17:53.073-05:00  INFO 60822 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 20 ms. Found 7 JPA repository interfaces.
+2026-01-28T17:17:53.219-05:00  INFO 60822 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-28T17:17:53.223-05:00  INFO 60822 --- [landing-backend] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-28T17:17:53.223-05:00  INFO 60822 --- [landing-backend] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-28T17:17:53.241-05:00  INFO 60822 --- [landing-backend] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-28T17:17:53.241-05:00  INFO 60822 --- [landing-backend] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 379 ms
+2026-01-28T17:17:53.325-05:00  INFO 60822 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-28T17:17:53.396-05:00  INFO 60822 --- [landing-backend] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@27898e13
+2026-01-28T17:17:53.397-05:00  INFO 60822 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-28T17:17:53.408-05:00  INFO 60822 --- [landing-backend] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/landingdb (PostgreSQL 15.15)
+2026-01-28T17:17:53.437-05:00  INFO 60822 --- [landing-backend] [main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.014s)
+2026-01-28T17:17:53.466-05:00  INFO 60822 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 007
+2026-01-28T17:17:53.467-05:00  INFO 60822 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-01-28T17:17:53.500-05:00  INFO 60822 --- [landing-backend] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-28T17:17:53.515-05:00  INFO 60822 --- [landing-backend] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-28T17:17:53.525-05:00  INFO 60822 --- [landing-backend] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-28T17:17:53.612-05:00  INFO 60822 --- [landing-backend] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-28T17:17:53.628-05:00  WARN 60822 --- [landing-backend] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-28T17:17:53.633-05:00  INFO 60822 --- [landing-backend] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-28T17:17:53.927-05:00  INFO 60822 --- [landing-backend] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-28T17:17:53.945-05:00  INFO 60822 --- [landing-backend] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-28T17:17:54.084-05:00  WARN 60822 --- [landing-backend] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-28T17:17:54.090-05:00  INFO 60822 --- [landing-backend] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:17:54.188-05:00  INFO 60822 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-28T17:17:54.192-05:00  INFO 60822 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Started LandingBackendApplication in 1.491 seconds (process running for 1.725)
+2026-01-28T17:18:07.559-05:00  INFO 60822 --- [landing-backend] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-28T17:18:07.560-05:00  INFO 60822 --- [landing-backend] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-28T17:18:07.561-05:00  INFO 60822 --- [landing-backend] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2026-01-28T17:18:35.534-05:00  INFO 60822 --- [landing-backend] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-28T17:18:35.542-05:00  INFO 60822 --- [landing-backend] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-28T17:18:35.547-05:00  INFO 60822 --- [landing-backend] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-28T17:18:35.549-05:00  INFO 60822 --- [landing-backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-01-28T17:18:35.550-05:00  INFO 60822 --- [landing-backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-01-28T17:25:44.810-05:00  INFO 62947 --- [landing-backend] [Test worker] c.i.l.controller.TimelineControllerTest  : Starting TimelineControllerTest using Java 21.0.9 with PID 62947 (started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:25:44.811-05:00  INFO 62947 --- [landing-backend] [Test worker] c.i.l.controller.TimelineControllerTest  : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:25:45.410-05:00  INFO 62947 --- [landing-backend] [Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:25:45.510-05:00  INFO 62947 --- [landing-backend] [Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-01-28T17:25:45.510-05:00  INFO 62947 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-01-28T17:25:45.511-05:00  INFO 62947 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-01-28T17:25:45.520-05:00  INFO 62947 --- [landing-backend] [Test worker] c.i.l.controller.TimelineControllerTest  : Started TimelineControllerTest in 0.85 seconds (process running for 1.246)
+2026-01-28T17:27:26.147-05:00  INFO 63293 --- [landing-backend] [Test worker] c.i.l.controller.AppendixControllerTest  : Starting AppendixControllerTest using Java 21.0.9 with PID 63293 (started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:27:26.148-05:00  INFO 63293 --- [landing-backend] [Test worker] c.i.l.controller.AppendixControllerTest  : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:27:26.765-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:27:26.871-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-01-28T17:27:26.872-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-01-28T17:27:26.872-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-01-28T17:27:26.881-05:00  INFO 63293 --- [landing-backend] [Test worker] c.i.l.controller.AppendixControllerTest  : Started AppendixControllerTest in 0.879 seconds (process running for 1.282)
+2026-01-28T17:27:26.940-05:00  INFO 63293 --- [landing-backend] [Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.inclusive.landing.controller.FindingControllerTest]: FindingControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-01-28T17:27:26.947-05:00  INFO 63293 --- [landing-backend] [Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.inclusive.landing.LandingBackendApplication for test class com.inclusive.landing.controller.FindingControllerTest
+2026-01-28T17:27:26.964-05:00  INFO 63293 --- [landing-backend] [Test worker] c.i.l.controller.FindingControllerTest   : Starting FindingControllerTest using Java 21.0.9 with PID 63293 (started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:27:26.965-05:00  INFO 63293 --- [landing-backend] [Test worker] c.i.l.controller.FindingControllerTest   : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:27:27.047-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:27:27.068-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-01-28T17:27:27.068-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-01-28T17:27:27.068-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-01-28T17:27:27.072-05:00  INFO 63293 --- [landing-backend] [Test worker] c.i.l.controller.FindingControllerTest   : Started FindingControllerTest in 0.123 seconds (process running for 1.473)
+2026-01-28T17:27:27.122-05:00  INFO 63293 --- [landing-backend] [Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.inclusive.landing.controller.ImageControllerTest]: ImageControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-01-28T17:27:27.125-05:00  INFO 63293 --- [landing-backend] [Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.inclusive.landing.LandingBackendApplication for test class com.inclusive.landing.controller.ImageControllerTest
+2026-01-28T17:27:27.135-05:00  INFO 63293 --- [landing-backend] [Test worker] c.i.l.controller.ImageControllerTest     : Starting ImageControllerTest using Java 21.0.9 with PID 63293 (started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:27:27.135-05:00  INFO 63293 --- [landing-backend] [Test worker] c.i.l.controller.ImageControllerTest     : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:27:27.195-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:27:27.211-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-01-28T17:27:27.212-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-01-28T17:27:27.212-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-01-28T17:27:27.214-05:00  INFO 63293 --- [landing-backend] [Test worker] c.i.l.controller.ImageControllerTest     : Started ImageControllerTest in 0.088 seconds (process running for 1.615)
+2026-01-28T17:27:27.231-05:00  INFO 63293 --- [landing-backend] [Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.inclusive.landing.controller.InterviewControllerTest]: InterviewControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-01-28T17:27:27.234-05:00  INFO 63293 --- [landing-backend] [Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.inclusive.landing.LandingBackendApplication for test class com.inclusive.landing.controller.InterviewControllerTest
+2026-01-28T17:27:27.242-05:00  INFO 63293 --- [landing-backend] [Test worker] c.i.l.c.InterviewControllerTest          : Starting InterviewControllerTest using Java 21.0.9 with PID 63293 (started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:27:27.243-05:00  INFO 63293 --- [landing-backend] [Test worker] c.i.l.c.InterviewControllerTest          : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:27:27.297-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:27:27.312-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-01-28T17:27:27.312-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-01-28T17:27:27.313-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-01-28T17:27:27.315-05:00  INFO 63293 --- [landing-backend] [Test worker] c.i.l.c.InterviewControllerTest          : Started InterviewControllerTest in 0.079 seconds (process running for 1.716)
+2026-01-28T17:27:27.352-05:00  INFO 63293 --- [landing-backend] [Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.inclusive.landing.controller.TimelineControllerTest]: TimelineControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-01-28T17:27:27.355-05:00  INFO 63293 --- [landing-backend] [Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.inclusive.landing.LandingBackendApplication for test class com.inclusive.landing.controller.TimelineControllerTest
+2026-01-28T17:27:27.364-05:00  INFO 63293 --- [landing-backend] [Test worker] c.i.l.controller.TimelineControllerTest  : Starting TimelineControllerTest using Java 21.0.9 with PID 63293 (started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:27:27.364-05:00  INFO 63293 --- [landing-backend] [Test worker] c.i.l.controller.TimelineControllerTest  : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:27:27.419-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:27:27.433-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-01-28T17:27:27.433-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-01-28T17:27:27.433-05:00  INFO 63293 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-01-28T17:27:27.436-05:00  INFO 63293 --- [landing-backend] [Test worker] c.i.l.controller.TimelineControllerTest  : Started TimelineControllerTest in 0.079 seconds (process running for 1.837)
+2026-01-28T17:28:04.671-05:00  INFO 63418 --- [landing-backend] [Test worker] c.i.l.controller.AppendixControllerTest  : Starting AppendixControllerTest using Java 21.0.9 with PID 63418 (started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:28:04.672-05:00  INFO 63418 --- [landing-backend] [Test worker] c.i.l.controller.AppendixControllerTest  : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:28:05.244-05:00  INFO 63418 --- [landing-backend] [Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:28:05.344-05:00  INFO 63418 --- [landing-backend] [Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-01-28T17:28:05.345-05:00  INFO 63418 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-01-28T17:28:05.345-05:00  INFO 63418 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-01-28T17:28:05.356-05:00  INFO 63418 --- [landing-backend] [Test worker] c.i.l.controller.AppendixControllerTest  : Started AppendixControllerTest in 0.807 seconds (process running for 1.179)
+2026-01-28T17:28:31.128-05:00  INFO 63519 --- [landing-backend] [Test worker] c.i.l.controller.AppendixControllerTest  : Starting AppendixControllerTest using Java 21.0.9 with PID 63519 (started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:28:31.128-05:00  INFO 63519 --- [landing-backend] [Test worker] c.i.l.controller.AppendixControllerTest  : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:28:31.712-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:28:31.814-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-01-28T17:28:31.814-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-01-28T17:28:31.815-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-01-28T17:28:31.824-05:00  INFO 63519 --- [landing-backend] [Test worker] c.i.l.controller.AppendixControllerTest  : Started AppendixControllerTest in 0.821 seconds (process running for 1.196)
+2026-01-28T17:28:31.881-05:00  INFO 63519 --- [landing-backend] [Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.inclusive.landing.controller.FindingControllerTest]: FindingControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-01-28T17:28:31.885-05:00  INFO 63519 --- [landing-backend] [Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.inclusive.landing.LandingBackendApplication for test class com.inclusive.landing.controller.FindingControllerTest
+2026-01-28T17:28:31.896-05:00  INFO 63519 --- [landing-backend] [Test worker] c.i.l.controller.FindingControllerTest   : Starting FindingControllerTest using Java 21.0.9 with PID 63519 (started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:28:31.897-05:00  INFO 63519 --- [landing-backend] [Test worker] c.i.l.controller.FindingControllerTest   : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:28:31.991-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:28:32.016-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-01-28T17:28:32.016-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-01-28T17:28:32.017-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-01-28T17:28:32.021-05:00  INFO 63519 --- [landing-backend] [Test worker] c.i.l.controller.FindingControllerTest   : Started FindingControllerTest in 0.135 seconds (process running for 1.392)
+2026-01-28T17:28:32.033-05:00  INFO 63519 --- [landing-backend] [Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.inclusive.landing.controller.ImageControllerTest]: ImageControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-01-28T17:28:32.037-05:00  INFO 63519 --- [landing-backend] [Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.inclusive.landing.LandingBackendApplication for test class com.inclusive.landing.controller.ImageControllerTest
+2026-01-28T17:28:32.048-05:00  INFO 63519 --- [landing-backend] [Test worker] c.i.l.controller.ImageControllerTest     : Starting ImageControllerTest using Java 21.0.9 with PID 63519 (started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:28:32.048-05:00  INFO 63519 --- [landing-backend] [Test worker] c.i.l.controller.ImageControllerTest     : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:28:32.117-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:28:32.135-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-01-28T17:28:32.135-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-01-28T17:28:32.135-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-01-28T17:28:32.138-05:00  INFO 63519 --- [landing-backend] [Test worker] c.i.l.controller.ImageControllerTest     : Started ImageControllerTest in 0.1 seconds (process running for 1.509)
+2026-01-28T17:28:32.144-05:00  INFO 63519 --- [landing-backend] [Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.inclusive.landing.controller.InterviewControllerTest]: InterviewControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-01-28T17:28:32.147-05:00  INFO 63519 --- [landing-backend] [Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.inclusive.landing.LandingBackendApplication for test class com.inclusive.landing.controller.InterviewControllerTest
+2026-01-28T17:28:32.155-05:00  INFO 63519 --- [landing-backend] [Test worker] c.i.l.c.InterviewControllerTest          : Starting InterviewControllerTest using Java 21.0.9 with PID 63519 (started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:28:32.156-05:00  INFO 63519 --- [landing-backend] [Test worker] c.i.l.c.InterviewControllerTest          : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:28:32.215-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:28:32.230-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-01-28T17:28:32.230-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-01-28T17:28:32.230-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-01-28T17:28:32.233-05:00  INFO 63519 --- [landing-backend] [Test worker] c.i.l.c.InterviewControllerTest          : Started InterviewControllerTest in 0.085 seconds (process running for 1.604)
+2026-01-28T17:28:32.244-05:00  INFO 63519 --- [landing-backend] [Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.inclusive.landing.controller.TimelineControllerTest]: TimelineControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-01-28T17:28:32.247-05:00  INFO 63519 --- [landing-backend] [Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.inclusive.landing.LandingBackendApplication for test class com.inclusive.landing.controller.TimelineControllerTest
+2026-01-28T17:28:32.255-05:00  INFO 63519 --- [landing-backend] [Test worker] c.i.l.controller.TimelineControllerTest  : Starting TimelineControllerTest using Java 21.0.9 with PID 63519 (started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:28:32.255-05:00  INFO 63519 --- [landing-backend] [Test worker] c.i.l.controller.TimelineControllerTest  : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:28:32.310-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:28:32.325-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-01-28T17:28:32.325-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-01-28T17:28:32.325-05:00  INFO 63519 --- [landing-backend] [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-01-28T17:28:32.328-05:00  INFO 63519 --- [landing-backend] [Test worker] c.i.l.controller.TimelineControllerTest  : Started TimelineControllerTest in 0.079 seconds (process running for 1.699)
+2026-01-28T17:30:32.367-05:00  INFO 64243 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Starting LandingBackendApplication using Java 21.0.9 with PID 64243 (/Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend/build/classes/java/main started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:30:32.369-05:00  INFO 64243 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:30:32.586-05:00  INFO 64243 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-28T17:30:32.610-05:00  INFO 64243 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 21 ms. Found 7 JPA repository interfaces.
+2026-01-28T17:30:32.768-05:00  INFO 64243 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-28T17:30:32.773-05:00  INFO 64243 --- [landing-backend] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-28T17:30:32.773-05:00  INFO 64243 --- [landing-backend] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-28T17:30:32.789-05:00  INFO 64243 --- [landing-backend] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-28T17:30:32.790-05:00  INFO 64243 --- [landing-backend] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 400 ms
+2026-01-28T17:30:32.875-05:00  INFO 64243 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-28T17:30:32.955-05:00  INFO 64243 --- [landing-backend] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5ca4dce5
+2026-01-28T17:30:32.956-05:00  INFO 64243 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-28T17:30:32.966-05:00  INFO 64243 --- [landing-backend] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/landingdb (PostgreSQL 15.15)
+2026-01-28T17:30:32.997-05:00  INFO 64243 --- [landing-backend] [main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.016s)
+2026-01-28T17:30:33.032-05:00  INFO 64243 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 007
+2026-01-28T17:30:33.033-05:00  INFO 64243 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-01-28T17:30:33.068-05:00  INFO 64243 --- [landing-backend] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-28T17:30:33.084-05:00  INFO 64243 --- [landing-backend] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-28T17:30:33.095-05:00  INFO 64243 --- [landing-backend] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-28T17:30:33.188-05:00  INFO 64243 --- [landing-backend] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-28T17:30:33.207-05:00  WARN 64243 --- [landing-backend] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-28T17:30:33.213-05:00  INFO 64243 --- [landing-backend] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-28T17:30:33.513-05:00  INFO 64243 --- [landing-backend] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-28T17:30:33.534-05:00  INFO 64243 --- [landing-backend] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-28T17:30:33.678-05:00  WARN 64243 --- [landing-backend] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-28T17:30:33.686-05:00  INFO 64243 --- [landing-backend] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:30:33.793-05:00  INFO 64243 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-28T17:30:33.797-05:00  INFO 64243 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Started LandingBackendApplication in 1.575 seconds (process running for 1.774)
+2026-01-28T17:30:39.396-05:00  INFO 64243 --- [landing-backend] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-28T17:30:39.396-05:00  INFO 64243 --- [landing-backend] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-28T17:30:39.397-05:00  INFO 64243 --- [landing-backend] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-01-28T17:31:31.740-05:00  INFO 64853 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Starting LandingBackendApplication using Java 21.0.9 with PID 64853 (/Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend/build/classes/java/main started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:31:31.742-05:00  INFO 64853 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:31:32.094-05:00  INFO 64853 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-28T17:31:32.137-05:00  INFO 64853 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 37 ms. Found 7 JPA repository interfaces.
+2026-01-28T17:31:32.360-05:00  INFO 64853 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-28T17:31:32.365-05:00  INFO 64853 --- [landing-backend] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-28T17:31:32.365-05:00  INFO 64853 --- [landing-backend] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-28T17:31:32.389-05:00  INFO 64853 --- [landing-backend] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-28T17:31:32.390-05:00  INFO 64853 --- [landing-backend] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 619 ms
+2026-01-28T17:31:32.513-05:00  INFO 64853 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-28T17:31:32.612-05:00  INFO 64853 --- [landing-backend] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@cbf1997
+2026-01-28T17:31:32.613-05:00  INFO 64853 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-28T17:31:32.629-05:00  INFO 64853 --- [landing-backend] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/landingdb (PostgreSQL 15.15)
+2026-01-28T17:31:32.663-05:00  INFO 64853 --- [landing-backend] [main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.018s)
+2026-01-28T17:31:32.692-05:00  INFO 64853 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 007
+2026-01-28T17:31:32.694-05:00  INFO 64853 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-01-28T17:31:32.735-05:00  INFO 64853 --- [landing-backend] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-28T17:31:32.754-05:00  INFO 64853 --- [landing-backend] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-28T17:31:32.766-05:00  INFO 64853 --- [landing-backend] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-28T17:31:32.878-05:00  INFO 64853 --- [landing-backend] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-28T17:31:32.906-05:00  WARN 64853 --- [landing-backend] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-28T17:31:32.915-05:00  INFO 64853 --- [landing-backend] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-28T17:31:33.285-05:00  INFO 64853 --- [landing-backend] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-28T17:31:33.307-05:00  INFO 64853 --- [landing-backend] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-28T17:31:33.486-05:00  WARN 64853 --- [landing-backend] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-28T17:31:33.499-05:00  INFO 64853 --- [landing-backend] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:31:33.650-05:00  WARN 64853 --- [landing-backend] [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-01-28T17:31:33.651-05:00  INFO 64853 --- [landing-backend] [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-28T17:31:33.652-05:00  INFO 64853 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-01-28T17:31:33.653-05:00  INFO 64853 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-01-28T17:31:33.658-05:00  INFO 64853 --- [landing-backend] [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-28T17:31:33.664-05:00 ERROR 64853 --- [landing-backend] [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2026-01-28T17:31:36.839-05:00  INFO 64243 --- [landing-backend] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-28T17:31:36.845-05:00  INFO 64243 --- [landing-backend] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-28T17:31:36.850-05:00  INFO 64243 --- [landing-backend] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-28T17:31:36.854-05:00  INFO 64243 --- [landing-backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-01-28T17:31:36.856-05:00  INFO 64243 --- [landing-backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-01-28T17:31:45.773-05:00  INFO 65429 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Starting LandingBackendApplication using Java 21.0.9 with PID 65429 (/Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend/build/classes/java/main started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T17:31:45.774-05:00  INFO 65429 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T17:31:46.150-05:00  INFO 65429 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-28T17:31:46.247-05:00  INFO 65429 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 90 ms. Found 7 JPA repository interfaces.
+2026-01-28T17:31:46.542-05:00  INFO 65429 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-28T17:31:46.547-05:00  INFO 65429 --- [landing-backend] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-28T17:31:46.548-05:00  INFO 65429 --- [landing-backend] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-28T17:31:46.606-05:00  INFO 65429 --- [landing-backend] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-28T17:31:46.608-05:00  INFO 65429 --- [landing-backend] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 802 ms
+2026-01-28T17:31:46.736-05:00  INFO 65429 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-28T17:31:46.809-05:00  INFO 65429 --- [landing-backend] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@545d2560
+2026-01-28T17:31:46.811-05:00  INFO 65429 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-28T17:31:46.828-05:00  INFO 65429 --- [landing-backend] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/landingdb (PostgreSQL 15.15)
+2026-01-28T17:31:46.859-05:00  INFO 65429 --- [landing-backend] [main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.017s)
+2026-01-28T17:31:46.884-05:00  INFO 65429 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 007
+2026-01-28T17:31:46.886-05:00  INFO 65429 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-01-28T17:31:46.941-05:00  INFO 65429 --- [landing-backend] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-28T17:31:46.964-05:00  INFO 65429 --- [landing-backend] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-28T17:31:46.984-05:00  INFO 65429 --- [landing-backend] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-28T17:31:47.086-05:00  INFO 65429 --- [landing-backend] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-28T17:31:47.116-05:00  WARN 65429 --- [landing-backend] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-28T17:31:47.128-05:00  INFO 65429 --- [landing-backend] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-28T17:31:47.467-05:00  INFO 65429 --- [landing-backend] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-28T17:31:47.486-05:00  INFO 65429 --- [landing-backend] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-28T17:31:47.679-05:00  WARN 65429 --- [landing-backend] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-28T17:31:47.688-05:00  INFO 65429 --- [landing-backend] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T17:31:47.858-05:00  INFO 65429 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-28T17:31:47.865-05:00  INFO 65429 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Started LandingBackendApplication in 2.405 seconds (process running for 2.74)
+2026-01-28T17:32:09.254-05:00  INFO 65429 --- [landing-backend] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-28T17:32:09.254-05:00  INFO 65429 --- [landing-backend] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-28T17:32:09.255-05:00  INFO 65429 --- [landing-backend] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-01-28T17:56:49.083-05:00  INFO 65429 --- [landing-backend] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-28T17:56:49.088-05:00  INFO 65429 --- [landing-backend] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-28T17:56:49.091-05:00  INFO 65429 --- [landing-backend] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-28T17:56:49.094-05:00  INFO 65429 --- [landing-backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-01-28T17:56:49.095-05:00  INFO 65429 --- [landing-backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-01-28T18:32:11.870-05:00  INFO 75516 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Starting LandingBackendApplication using Java 21.0.9 with PID 75516 (/Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend/build/classes/java/main started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T18:32:11.873-05:00  INFO 75516 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T18:32:12.270-05:00  INFO 75516 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-28T18:32:12.307-05:00  INFO 75516 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 33 ms. Found 7 JPA repository interfaces.
+2026-01-28T18:32:12.551-05:00  INFO 75516 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-28T18:32:12.556-05:00  INFO 75516 --- [landing-backend] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-28T18:32:12.556-05:00  INFO 75516 --- [landing-backend] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-28T18:32:12.583-05:00  INFO 75516 --- [landing-backend] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-28T18:32:12.584-05:00  INFO 75516 --- [landing-backend] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 679 ms
+2026-01-28T18:32:12.721-05:00  INFO 75516 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-28T18:32:15.004-05:00  WARN 75516 --- [landing-backend] [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "landingdbazure-deploy-inclusiveuser=postgres&password=example&s" does not exist
+-------------------------------------------------------------------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "landingdbazure-deploy-inclusiveuser=postgres&password=example&s" does not exist
+
+2026-01-28T18:32:15.007-05:00  INFO 75516 --- [landing-backend] [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-01-28T18:32:15.015-05:00  INFO 75516 --- [landing-backend] [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-28T18:32:15.024-05:00 ERROR 75516 --- [landing-backend] [main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "landingdbazure-deploy-inclusiveuser=postgres&password=example&s" does not exist
+-------------------------------------------------------------------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "landingdbazure-deploy-inclusiveuser=postgres&password=example&s" does not exist
+
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:328) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:973) ~[spring-context-6.2.12.jar:6.2.12]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.12.jar:6.2.12]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.5.7.jar:3.5.7]
+	at com.inclusive.landing.LandingBackendApplication.main(LandingBackendApplication.java:10) ~[main/:na]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "landingdbazure-deploy-inclusiveuser=postgres&password=example&s" does not exist
+-------------------------------------------------------------------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "landingdbazure-deploy-inclusiveuser=postgres&password=example&s" does not exist
+
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315) ~[spring-beans-6.2.12.jar:6.2.12]
+	... 10 common frames omitted
+Caused by: org.flywaydb.core.internal.exception.FlywaySqlException: Unable to obtain connection from database: FATAL: database "landingdbazure-deploy-inclusiveuser=postgres&password=example&s" does not exist
+-------------------------------------------------------------------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "landingdbazure-deploy-inclusiveuser=postgres&password=example&s" does not exist
+
+	at org.flywaydb.core.internal.jdbc.JdbcUtils.openConnection(JdbcUtils.java:71) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.internal.jdbc.JdbcConnectionFactory.<init>(JdbcConnectionFactory.java:76) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.FlywayExecutor.execute(FlywayExecutor.java:136) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.Flyway.migrate(Flyway.java:188) ~[flyway-core-11.7.2.jar:na]
+	at org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer.afterPropertiesSet(FlywayMigrationInitializer.java:66) ~[spring-boot-autoconfigure-3.5.7.jar:3.5.7]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822) ~[spring-beans-6.2.12.jar:6.2.12]
+	... 17 common frames omitted
+Caused by: org.postgresql.util.PSQLException: FATAL: database "landingdbazure-deploy-inclusiveuser=postgres&password=example&s" does not exist
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2736) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.core.v3.QueryExecutorImpl.readStartupMessages(QueryExecutorImpl.java:2861) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.core.v3.QueryExecutorImpl.<init>(QueryExecutorImpl.java:178) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:344) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:57) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:279) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.Driver.makeConnection(Driver.java:448) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.Driver.connect(Driver.java:298) ~[postgresql-42.7.8.jar:42.7.8]
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:576) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:97) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-6.3.3.jar:na]
+	at org.flywaydb.core.internal.jdbc.JdbcUtils.openConnection(JdbcUtils.java:59) ~[flyway-core-11.7.2.jar:na]
+	... 23 common frames omitted
+
+2026-01-28T18:35:39.991-05:00  INFO 76101 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Starting LandingBackendApplication using Java 21.0.9 with PID 76101 (/Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend/build/classes/java/main started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T18:35:39.993-05:00  INFO 76101 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T18:35:40.329-05:00  INFO 76101 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-28T18:35:40.368-05:00  INFO 76101 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 35 ms. Found 7 JPA repository interfaces.
+2026-01-28T18:35:40.628-05:00  INFO 76101 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-28T18:35:40.633-05:00  INFO 76101 --- [landing-backend] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-28T18:35:40.634-05:00  INFO 76101 --- [landing-backend] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-28T18:35:40.660-05:00  INFO 76101 --- [landing-backend] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-28T18:35:40.661-05:00  INFO 76101 --- [landing-backend] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 644 ms
+2026-01-28T18:35:40.782-05:00  INFO 76101 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-28T18:35:42.717-05:00  WARN 76101 --- [landing-backend] [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "landingdbazure-deploy-inclusive&user=postgres&password=example&" does not exist
+-------------------------------------------------------------------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "landingdbazure-deploy-inclusive&user=postgres&password=example&" does not exist
+
+2026-01-28T18:35:42.719-05:00  INFO 76101 --- [landing-backend] [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-01-28T18:35:42.724-05:00  INFO 76101 --- [landing-backend] [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-28T18:35:42.731-05:00 ERROR 76101 --- [landing-backend] [main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "landingdbazure-deploy-inclusive&user=postgres&password=example&" does not exist
+-------------------------------------------------------------------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "landingdbazure-deploy-inclusive&user=postgres&password=example&" does not exist
+
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:328) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:973) ~[spring-context-6.2.12.jar:6.2.12]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.12.jar:6.2.12]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.5.7.jar:3.5.7]
+	at com.inclusive.landing.LandingBackendApplication.main(LandingBackendApplication.java:10) ~[main/:na]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "landingdbazure-deploy-inclusive&user=postgres&password=example&" does not exist
+-------------------------------------------------------------------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "landingdbazure-deploy-inclusive&user=postgres&password=example&" does not exist
+
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315) ~[spring-beans-6.2.12.jar:6.2.12]
+	... 10 common frames omitted
+Caused by: org.flywaydb.core.internal.exception.FlywaySqlException: Unable to obtain connection from database: FATAL: database "landingdbazure-deploy-inclusive&user=postgres&password=example&" does not exist
+-------------------------------------------------------------------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "landingdbazure-deploy-inclusive&user=postgres&password=example&" does not exist
+
+	at org.flywaydb.core.internal.jdbc.JdbcUtils.openConnection(JdbcUtils.java:71) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.internal.jdbc.JdbcConnectionFactory.<init>(JdbcConnectionFactory.java:76) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.FlywayExecutor.execute(FlywayExecutor.java:136) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.Flyway.migrate(Flyway.java:188) ~[flyway-core-11.7.2.jar:na]
+	at org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer.afterPropertiesSet(FlywayMigrationInitializer.java:66) ~[spring-boot-autoconfigure-3.5.7.jar:3.5.7]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822) ~[spring-beans-6.2.12.jar:6.2.12]
+	... 17 common frames omitted
+Caused by: org.postgresql.util.PSQLException: FATAL: database "landingdbazure-deploy-inclusive&user=postgres&password=example&" does not exist
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2736) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.core.v3.QueryExecutorImpl.readStartupMessages(QueryExecutorImpl.java:2861) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.core.v3.QueryExecutorImpl.<init>(QueryExecutorImpl.java:178) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:344) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:57) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:279) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.Driver.makeConnection(Driver.java:448) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.Driver.connect(Driver.java:298) ~[postgresql-42.7.8.jar:42.7.8]
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:576) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:97) ~[HikariCP-6.3.3.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-6.3.3.jar:na]
+	at org.flywaydb.core.internal.jdbc.JdbcUtils.openConnection(JdbcUtils.java:59) ~[flyway-core-11.7.2.jar:na]
+	... 23 common frames omitted
+
+2026-01-28T18:36:14.655-05:00  INFO 76584 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Starting LandingBackendApplication using Java 21.0.9 with PID 76584 (/Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend/build/classes/java/main started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T18:36:14.656-05:00  INFO 76584 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T18:36:14.997-05:00  INFO 76584 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-28T18:36:15.043-05:00  INFO 76584 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 42 ms. Found 7 JPA repository interfaces.
+2026-01-28T18:36:15.346-05:00  INFO 76584 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-28T18:36:15.351-05:00  INFO 76584 --- [landing-backend] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-28T18:36:15.351-05:00  INFO 76584 --- [landing-backend] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-28T18:36:15.375-05:00  INFO 76584 --- [landing-backend] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-28T18:36:15.375-05:00  INFO 76584 --- [landing-backend] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 696 ms
+2026-01-28T18:36:15.484-05:00  INFO 76584 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-28T18:36:17.349-05:00  INFO 76584 --- [landing-backend] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@421ead7e
+2026-01-28T18:36:17.350-05:00  INFO 76584 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-28T18:36:17.495-05:00  INFO 76584 --- [landing-backend] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://psqlazure-deploy-inclusive.postgres.database.azure.com:5432/landingdbazure-deploy-inclusive (PostgreSQL 16.11)
+2026-01-28T18:36:19.155-05:00  INFO 76584 --- [landing-backend] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-01-28T18:36:19.291-05:00  INFO 76584 --- [landing-backend] [main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.399s)
+2026-01-28T18:36:20.130-05:00  INFO 76584 --- [landing-backend] [main] org.flywaydb.core.Flyway                 : All configured schemas are empty; baseline operation skipped. A baseline or migration script with a lower version than the baseline version may execute if available. Check the Schemas parameter if this is not intended.
+2026-01-28T18:36:20.556-05:00  INFO 76584 --- [landing-backend] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-01-28T18:36:22.803-05:00  INFO 76584 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-01-28T18:36:23.243-05:00  INFO 76584 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "001 - tables base"
+2026-01-28T18:36:26.667-05:00  INFO 76584 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "002 - school seed"
+2026-01-28T18:36:29.005-05:00  INFO 76584 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "003 - timeline seed"
+2026-01-28T18:36:31.353-05:00  INFO 76584 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "004 - finding seed"
+2026-01-28T18:36:33.645-05:00  INFO 76584 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "005 - inverviewee seed"
+2026-01-28T18:36:35.862-05:00  INFO 76584 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "006 - appendix seed"
+2026-01-28T18:36:38.049-05:00  INFO 76584 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "007 - gallery seed"
+2026-01-28T18:36:40.016-05:00  INFO 76584 --- [landing-backend] [main] o.f.core.internal.command.DbMigrate      : Successfully applied 7 migrations to schema "public", now at version v007 (execution time 00:05.745s)
+2026-01-28T18:36:40.874-05:00  INFO 76584 --- [landing-backend] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-28T18:36:40.891-05:00  INFO 76584 --- [landing-backend] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-28T18:36:40.901-05:00  INFO 76584 --- [landing-backend] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-28T18:36:40.973-05:00  INFO 76584 --- [landing-backend] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-28T18:36:41.135-05:00  WARN 76584 --- [landing-backend] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-28T18:36:41.410-05:00  INFO 76584 --- [landing-backend] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.11
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-28T18:36:41.682-05:00  INFO 76584 --- [landing-backend] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-28T18:36:42.158-05:00  INFO 76584 --- [landing-backend] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-28T18:36:42.301-05:00  WARN 76584 --- [landing-backend] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-28T18:36:42.306-05:00  INFO 76584 --- [landing-backend] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2026-01-28T18:36:42.396-05:00  INFO 76584 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-28T18:36:42.399-05:00  INFO 76584 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Started LandingBackendApplication in 27.991 seconds (process running for 28.327)
+2026-01-28T18:36:53.512-05:00  INFO 76584 --- [landing-backend] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-28T18:36:53.512-05:00  INFO 76584 --- [landing-backend] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-28T18:36:53.513-05:00  INFO 76584 --- [landing-backend] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-01-28T18:37:13.384-05:00  INFO 76584 --- [landing-backend] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-28T18:37:13.388-05:00  INFO 76584 --- [landing-backend] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-28T18:37:13.391-05:00  INFO 76584 --- [landing-backend] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-28T18:37:13.392-05:00  INFO 76584 --- [landing-backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-01-28T18:37:14.806-05:00  INFO 76584 --- [landing-backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-01-28T18:38:16.315-05:00  INFO 77534 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : Starting LandingBackendApplication using Java 21.0.9 with PID 77534 (/Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend/build/classes/java/main started by developer in /Users/developer/Library/CloudStorage/OneDrive-Personal/mac/education/landing-backend)
+2026-01-28T18:38:16.316-05:00  INFO 77534 --- [landing-backend] [main] c.i.landing.LandingBackendApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-01-28T18:38:16.675-05:00  INFO 77534 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-28T18:38:16.709-05:00  INFO 77534 --- [landing-backend] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 31 ms. Found 7 JPA repository interfaces.
+2026-01-28T18:38:16.902-05:00  INFO 77534 --- [landing-backend] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-28T18:38:16.907-05:00  INFO 77534 --- [landing-backend] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-28T18:38:16.907-05:00  INFO 77534 --- [landing-backend] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-28T18:38:16.927-05:00  INFO 77534 --- [landing-backend] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-28T18:38:16.927-05:00  INFO 77534 --- [landing-backend] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 578 ms
+2026-01-28T18:38:17.016-05:00  INFO 77534 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-28T18:38:18.822-05:00  INFO 77534 --- [landing-backend] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@39c7fb0b
+2026-01-28T18:38:18.823-05:00  INFO 77534 --- [landing-backend] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-28T18:38:18.969-05:00  INFO 77534 --- [landing-backend] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://psqlazure-deploy-inclusive.postgres.database.azure.com:5432/landingdbazure-deploy-inclusive (PostgreSQL 16.11)

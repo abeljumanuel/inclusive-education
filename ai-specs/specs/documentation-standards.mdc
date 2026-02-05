@@ -1,0 +1,368 @@
+---
+description: Standards and best practices for technical documentation in this Spring Boot project, including documentation structure, update processes, and language rules.
+globs: ["**/*.md", "**/*.mdc", "**/*.yml", "**/*.yaml", "src/**/*.java", "src/**/*.sql"]
+alwaysApply: true
+---
+
+# Documentation Standards
+
+## Introduction
+
+Technical documentation applies to all the documentation relative to the project, such as the data model, README, API specs, and other MD docs that describe how the project is structured, runs, and operates.
+
+AI specs refers to the documents that explain AI agents how to behave, document, plan, code, etc, which includes team agreements, standards and conventions.
+
+## General Rules
+
+- **ALWAYS WRITE IN ENGLISH**: All documentation must be written in English, including:
+  - Comments and explanations in files
+  - Code documentation (JavaDoc comments, method descriptions)
+  - Field descriptions in entities and DTOs
+  - Database migration comments
+  - Error messages and log messages
+  - README files and guides
+  - API documentation
+
+## Technical Documentation Structure
+
+### Core Documentation Files
+
+The project maintains the following key documentation files:
+
+1. **data-model.md** (`ai-specs/specs/data-model.md`)
+   - Describes all database entities and their relationships
+   - Includes field definitions, validation rules, and usage examples
+   - Entity-relationship diagrams
+   - Must be updated when:
+     - New entities are added
+     - Entity fields are modified
+     - Relationships change
+     - Database migrations add/change tables
+
+2. **api-spec.yml** (`ai-specs/specs/api-spec.yml`)
+   - OpenAPI specification for all REST endpoints
+   - Request/response schemas
+   - Must be updated when:
+     - New endpoints are added
+     - Existing endpoints are modified
+     - Request/response structures change
+     - Error responses are updated
+
+3. **backend-standards.mdc** (`ai-specs/specs/backend-standards.mdc`)
+   - Spring Boot + Java coding standards
+   - Architecture patterns and best practices
+   - Must be updated when:
+     - New libraries or frameworks are added
+     - Coding standards change
+     - Architecture patterns evolve
+
+4. **frontend-standards.mdc** (`ai-specs/specs/frontend-standards.mdc`)
+   - Vanilla JavaScript + Tailwind CSS standards
+   - Frontend best practices
+   - Must be updated when:
+     - Frontend technologies change
+     - UI/UX patterns evolve
+
+5. **development_guide.md** (`ai-specs/specs/development_guide.md`)
+   - Setup instructions
+   - Development commands
+   - Troubleshooting guides
+   - Must be updated when:
+     - Setup process changes
+     - New tools are introduced
+     - Common issues and solutions are discovered
+
+6. **README.md** (project root)
+   - Project overview
+   - Quick start guide
+   - Links to detailed documentation
+   - Must be kept current with project status
+
+### Code Documentation
+
+#### Java Entity Documentation
+
+All JPA entities should include JavaDoc comments describing:
+- Purpose of the entity
+- Key fields and their meanings
+- Relationships with other entities
+
+**Example:**
+```java
+/**
+ * Represents an educational institution participating in the 
+ * inclusive education systematization project.
+ * 
+ * @author Landing Backend Team
+ */
+@Entity
+@Table(name = "school")
+public class School {
+    /**
+     * Unique identifier for the school.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    /**
+     * Full name of the educational institution.
+     * Example: "Institución Educativa Lorencita Villegas de Santos"
+     */
+    @Column(name = "full_name")
+    private String fullName;
+    
+    // ... other fields
+}
+```
+
+#### Service Interface Documentation
+
+Service interfaces should document:
+- Purpose of the service
+- Key operations and their contracts
+- Expected exceptions
+
+**Example:**
+```java
+/**
+ * Service interface for timeline operations.
+ * Handles business logic for timeline entries related to schools.
+ */
+public interface ITimelineService {
+    /**
+     * Finds all timeline entries for a specific school, ordered by year ascending.
+     * 
+     * @param schoolId The ID of the school
+     * @return TimelineDTO containing school information and timeline entries
+     * @throws EntityNotFoundException if school not found
+     */
+    TimelineDTO findBySchoolId(Long schoolId);
+}
+```
+
+#### Controller Documentation
+
+Controllers should document:
+- Endpoint purpose
+- Request/response formats
+- HTTP status codes
+- Authentication requirements (if any)
+
+**Example:**
+```java
+/**
+ * REST controller for timeline operations.
+ * Provides endpoints for retrieving school timeline information.
+ */
+@RestController
+@RequestMapping("/api/inclusive/{schoolId}/timeline")
+public class TimelineController {
+    /**
+     * Retrieves the timeline for a specific school.
+     * 
+     * @param schoolId The ID of the school (path variable)
+     * @return TimelineDTO with school info and timeline entries
+     * @return 200 OK if successful
+     * @return 404 Not Found if school doesn't exist
+     */
+    @GetMapping(produces = "application/json")
+    public TimelineDTO getTimelineDTO(@PathVariable Long schoolId) {
+        return timelineService.findBySchoolId(schoolId);
+    }
+}
+```
+
+### Database Migration Documentation
+
+#### Flyway Migration Files
+
+Each migration file should include:
+- Clear description in filename: `V{version}__{description}.sql`
+- Comments explaining what the migration does
+- References to related entities or features
+
+**Example:**
+```sql
+-- V001__tables_base.sql
+-- Creates all base tables for the landing backend application
+-- Tables: school, finding, modal_finding, interview, appendix, timeline, image
+
+CREATE TABLE school (
+    id BIGSERIAL PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    -- ... other fields
+);
+```
+
+#### Migration Naming Convention
+
+- Format: `V{version}__{description}.sql`
+- Version numbers must be sequential and unique
+- Description should be brief and descriptive
+- Use underscores, not spaces or hyphens
+
+**Examples:**
+- `V001__tables_base.sql`
+- `V002__school_seed.sql`
+- `V003__timeline_seed.sql`
+
+### Documentation Update Process
+
+When making any commit or git push, or if you're asked to document a commit, you must **ALWAYS** review which technical documentation should be updated.
+
+#### Step 1: Review Recent Changes
+
+1. Review all recent changes in the codebase
+2. Identify which documentation files need updates based on the changes
+
+#### Step 2: Identify Documentation to Update
+
+Some clear examples of what needs documentation updates:
+
+**Data Model Changes:**
+- New entities added → Update `data-model.md`
+- Entity fields modified → Update `data-model.md`
+- Relationships changed → Update `data-model.md`
+- New migration created → Update migration comments, consider updating `data-model.md` if schema changed significantly
+
+**API Changes:**
+- New endpoints added → Update `api-spec.yml`
+- Existing endpoints modified → Update `api-spec.yml`
+- Request/response structures changed → Update `api-spec.yml`
+- Error responses updated → Update `api-spec.yml` and potentially backend-standards.mdc
+
+**Code Standards Changes:**
+- New libraries added → Update `backend-standards.mdc` or `frontend-standards.mdc`
+- Coding patterns changed → Update relevant standards document
+- Architecture changes → Update `backend-standards.mdc`
+
+**Setup/Configuration Changes:**
+- Installation process changed → Update `development_guide.md`
+- New tools introduced → Update `development_guide.md`
+- Configuration files changed → Update `development_guide.md`
+
+#### Step 3: Update Documentation
+
+When updating documentation:
+
+1. **Update each affected documentation file** in English, maintaining consistency with existing documentation
+2. **Ensure all documentation is properly formatted** and follows the established structure
+3. **Verify that all changes are accurately reflected** in the documentation
+4. **Report which files were updated** and what changes were made
+
+#### Step 4: Code Comments
+
+Remember to also update:
+- JavaDoc comments in affected classes
+- Inline comments explaining complex logic
+- Migration file comments
+- README.md if project overview changed
+
+## AI Specs Documentation
+
+### Learning and Improvement Process
+
+This rule establishes a mandatory process for the AI to:
+
+* Learn from user feedback, guidance, and suggestions during interactions
+* Identify opportunities to improve existing Development Rules based on these learnings proactively
+* Keep the AI's assistance aligned with evolving project needs and user expectations
+* Incorporate user feedback into the AI's operational framework to maximize its value
+
+This rule is applicable after any interaction where the user provides explicit or implicit feedback, suggestions, corrections, new information, or expresses preferences. **The AI MUST actively analyze all user interactions for such learning opportunities, not only passively waiting for direct feedback, to proactively refine its understanding and the project's best practices.**
+
+### AI Specs Update Process
+
+When updating AI specs (`.mdc` files):
+
+1. **Identify the Learning Opportunity**: Clearly identify what was learned from user feedback or interaction
+2. **Locate Relevant Section**: Precisely identify which rule or specific sections within a rule should be changed
+3. **Propose Changes**: Suggest modifications that clearly connect to the specific user feedback or insights gained
+4. **Request Approval**: Always obtain explicit user review and approval before applying rule modifications
+5. **Apply Changes**: After approval, implement the changes maintaining consistency with existing documentation style
+6. **Confirm Update**: Notify the user after a rule modification has been successfully implemented
+
+### Common Pitfalls and Anti-Patterns
+
+**To be avoided by the AI:**
+
+* **Skipping Approval Process**: Applying rule modifications without obtaining explicit user review and approval first
+* **Unlinked Proposals**: Proposing rule changes without clearly connecting them to the specific user feedback or insights gained from the interaction
+* **Imprecise Modifications**: Suggesting modifications without precisely identifying which rule or specific sections within a rule should be changed, hindering effective user review
+* **Unaddressed Feedback**: Not initiating the learning and review process when the user provides relevant feedback that could improve the rules
+* **Scope Creep**: Updating multiple unrelated rules simultaneously or making changes that exceed the scope of the feedback received
+* **Unprompted Rule Changes**: Modifying rules proactively when there is no direct connection to user feedback or a learning opportunity. Rule updates should be reactive and feedback-driven
+* **Missing Update Confirmation**: Failing to notify the user after a rule modification has been successfully implemented following their approval
+
+## Documentation Checklist
+
+Before committing changes, verify:
+
+- [ ] All affected documentation files have been updated
+- [ ] Code comments (JavaDoc) have been added/updated
+- [ ] Migration files have proper comments
+- [ ] API specification is current (if API changes)
+- [ ] Data model documentation is current (if schema changes)
+- [ ] README.md is current (if project setup changed)
+- [ ] All documentation is written in English
+- [ ] Documentation follows the established structure and formatting
+- [ ] Changes have been tested and verified
+
+## Documentation File Locations
+
+```
+landing-backend/
+├── README.md                          # Project overview
+├── ai-specs/
+│   └── specs/
+│       ├── data-model.md              # Database entities and relationships
+│       ├── api-spec.yml               # OpenAPI specification
+│       ├── backend-standards.mdc      # Spring Boot coding standards
+│       ├── frontend-standards.mdc     # Frontend coding standards
+│       ├── documentation-standards.mdc # This file
+│       └── development_guide.md       # Setup and development guide
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/inclusive/landing/
+│   │   │       ├── model/             # JPA entities with JavaDoc
+│   │   │       ├── service/           # Services with JavaDoc
+│   │   │       ├── controller/        # Controllers with JavaDoc
+│   │   │       └── dto/               # DTOs with JavaDoc
+│   │   └── resources/
+│   │       └── db/migration/          # Flyway migrations with comments
+│   └── test/
+│       └── java/                      # Test documentation
+```
+
+## Language and Formatting
+
+### English Only
+
+All documentation must be written in English:
+- Code comments
+- JavaDoc documentation
+- README files
+- API specifications
+- Error messages
+- Database migration comments
+- User-facing messages
+
+### Markdown Formatting
+
+- Use proper heading hierarchy (# ## ###)
+- Use code blocks with language tags for code examples
+- Use bullet points for lists
+- Use tables for structured data
+- Include examples where helpful
+
+### File Extensions
+
+- Markdown documentation: `.md`
+- AI specs/standards: `.mdc`
+- API specifications: `.yml` or `.yaml`
+- Java source files: `.java` (with JavaDoc)
+- SQL migrations: `.sql` (with comments)
+
+This document serves as the foundation for maintaining consistent, up-to-date documentation across the Spring Boot Landing Backend application. All team members and AI agents should follow these practices to ensure documentation quality and accuracy.
