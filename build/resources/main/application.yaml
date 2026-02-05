@@ -3,7 +3,7 @@ spring:
     name: landing-backend
 
   datasource:
-    url: jdbc:postgresql://psqlazure-deploy-inclusive.postgres.database.azure.com:5432/landingdbazure-deploy-inclusive
+    url: jdbc:postgresql://localhost:5432/landingdb
     username: postgres
     password: example
     driver-class-name: org.postgresql.Driver

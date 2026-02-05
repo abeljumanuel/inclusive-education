@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-LandingBackendApplication<inclusive-education>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.inclusive.landing.LandingBackendApplication",
+            "projectName": "inclusive-education",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

@@ -1,312 +1,270 @@
-# AI Specifications & Development Rules
+# Inclusive Education Landing Backend
 
-This repository contains a comprehensive set of development rules, standards, and AI agent configurations designed to work seamlessly with multiple AI coding copilots. The setup is portable and can be imported into any project to provide consistent, high-quality AI-assisted development.
+A Spring Boot REST API backend application that serves as the foundation for a web page about Inclusive Education. This application systematizes and documents inclusive education experiences in Colombian schools, providing structured data about schools, timelines, research findings, teacher interviews, appendices, and image galleries.
 
-## 📁 Repository Structure
+## 🎯 Project Overview
 
-```
-.
-├── ai-specs/                    # Main directory with all rules and configurations
-│   ├── specs/                   # Development standards and specifications
-│   │   ├── base-standards.mdc   # Core development rules (single source of truth)
-│   │   ├── backend-standards.mdc
-│   │   ├── frontend-standards.mdc
-│   │   ├── documentation-standards.mdc
-│   │   ├── api-spec.yml         # OpenAPI specification
-│   │   ├── data-model.md        # Database and domain models
-│   │   ├── development_guide.md
-│   │   └── prompts.md           # Reusable prompt templates
-│   └── changes/                 # Feature implementation plans
-│       └── SCRUM-10_backend.md  # Demo: Position update feature plan
-│
-├── AGENTS.md                    # Generic agent configuration
-├── CLAUDE.md                    # Claude-specific configuration
-├── codex.md                     # GitHub Copilot/Codex configuration
-└── GEMINI.md                    # Gemini-specific configuration
-```
+This backend application provides a RESTful API to support a web page focused on documenting and presenting research on inclusive education practices. The system tracks the evolution of inclusive education practices at various schools, documents research findings, manages teacher testimonies, and provides access to supporting materials and visual documentation.
 
-## 🤖 Multi-Copilot Support
+## 🏗️ Architecture
 
-This repository uses **symbolic links** or **naming conventions** to support multiple AI coding copilots without duplication:
+- **Framework**: Spring Boot 3.5.7
+- **Language**: Java 21
+- **Database**: PostgreSQL (with Flyway migrations)
+- **Build Tool**: Gradle
+- **API Documentation**: OpenAPI 3.0 specification
+- **Architecture Pattern**: Layered architecture (Controller → Service → Repository)
 
-- **`AGENTS.md`** → Generic agent rules (works with most copilots)
-- **`CLAUDE.md`** → Optimized for Claude/Cursor
-- **`codex.md`** → Optimized for GitHub Copilot/Codex
-- **`GEMINI.md`** → Optimized for Google Gemini
+## 📋 Features
 
-All these files reference the same core rules in `ai-specs/specs/base-standards.mdc`, ensuring consistency across different AI tools while allowing copilot-specific customizations.
-
-### Why This Approach?
-
-✅ **Single Source of Truth**: Core rules maintained in one place (`base-standards.mdc`)  
-✅ **Copilot Compatibility**: Each AI tool finds its configuration using its preferred naming convention  
-✅ **Zero Configuration**: Import into a new project and it works immediately  
-✅ **Easy Updates**: Update rules once, all copilots benefit  
-✅ **Portable**: Copy this structure to any project  
+- **Timeline Management**: Track chronological evolution of inclusive education practices at schools
+- **Research Findings**: Document findings with detailed modal information
+- **Interview Management**: Store and retrieve teacher quotes and testimonies
+- **Appendix Management**: Provide access to research materials and documents
+- **Image Gallery**: Manage visual documentation of inclusive education practices
 
 ## 🚀 Quick Start
 
-### 1. Import Into Your Project
+### Prerequisites
 
+- Java 21 (JDK)
+- Gradle 8.x (or use Gradle Wrapper)
+- PostgreSQL (v12 or higher)
+
+### Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd inclusive-education
+   ```
+
+2. **Configure database** in `src/main/resources/application.yaml`
+   ```yaml
+   spring:
+     datasource:
+       url: jdbc:postgresql://localhost:5432/landingdb
+       username: postgres
+       password: your-password
+   ```
+
+3. **Build and run**
+   ```bash
+   ./gradlew build
+   ./gradlew bootRun
+   ```
+
+4. **Access the API**
+   - Base URL: `http://localhost:8080`
+   - API endpoints: `http://localhost:8080/api/inclusive/...`
+
+For detailed setup instructions, see [Development Guide](./ai-specs/specs/development_guide.md).
+
+## 📡 API Endpoints
+
+All endpoints return JSON responses and are prefixed with `/api/inclusive`.
+
+### Timeline
+
+**Get timeline for a specific school**
+- `GET /api/inclusive/{schoolId}/timeline`
+- **Description**: Retrieve the chronological timeline of inclusive education practices for a specific school
+- **Parameters**:
+  - `schoolId` (path, required): School identifier (Long)
+- **Response**: `TimelineDTO` with school information and timeline entries
+- **Status Codes**: 200 (Success), 400 (Invalid school ID), 404 (School not found), 500 (Server error)
+
+### Findings
+
+**Get all research findings**
+- `GET /api/inclusive/finding`
+- **Description**: Retrieve all research findings with their associated modal details
+- **Response**: Array of `FindingDTO` objects
+- **Status Codes**: 200 (Success), 500 (Server error)
+
+### Interviews
+
+**Get all teacher interviews**
+- `GET /api/inclusive/interviews`
+- **Description**: Retrieve all teacher interviews/testimonies with school information
+- **Response**: Array of `InterviewDTO` objects
+- **Status Codes**: 200 (Success), 500 (Server error)
+
+### Appendices
+
+**Get all appendices**
+- `GET /api/inclusive/appendices`
+- **Description**: Retrieve all research material appendices with their function URLs
+- **Response**: Array of `AppendixDTO` objects
+- **Status Codes**: 200 (Success), 500 (Server error)
+
+### Images
+
+**Get all gallery images**
+- `GET /api/inclusive/image`
+- **Description**: Retrieve all gallery images with their descriptions
+- **Response**: Array of `ImageDTO` objects
+- **Status Codes**: 200 (Success), 500 (Server error)
+
+## 📚 API Documentation
+
+Full API documentation is available in OpenAPI 3.0 format:
+- **Specification**: [`ai-specs/specs/api-spec.yml`](./ai-specs/specs/api-spec.yml)
+- **Data Models**: [`ai-specs/specs/data-model.md`](./ai-specs/specs/data-model.md)
+
+The API specification includes:
+- Complete endpoint documentation
+- Request/response schemas
+- Error response formats
+- Status codes and descriptions
+
+## 🗄️ Database Schema
+
+The application uses PostgreSQL with the following main entities:
+
+- **School**: Educational institutions participating in the project
+- **TimeLine**: Chronological entries documenting evolution of practices
+- **Finding**: Research findings with associated modal details
+- **ModalFinding**: Detailed information displayed in modal dialogs
+- **Interview**: Teacher interviews and testimonies
+- **Appendix**: Supplementary research materials and documents
+- **Image**: Gallery images with descriptions
+
+Database migrations are managed through Flyway and located in `src/main/resources/db/migration/`:
+- `V001__tables_base.sql`: Base table structure
+- `V002__school_seed.sql`: Initial school data
+- `V003__timeline_seed.sql`: Timeline entries
+- `V004__finding_seed.sql`: Findings and modal details
+- `V005__inverviewee_seed.sql`: Interview/testimony data
+- `V006__appendix_seed.sql`: Appendix/research material links
+- `V007__gallery_seed.sql`: Gallery images
+
+For detailed data model documentation, see [`ai-specs/specs/data-model.md`](./ai-specs/specs/data-model.md).
+
+## 🧪 Testing
+
+Run tests with:
 ```bash
-# Clone or copy this repository into your project
-cp -r LIDR-ai-specs/* your-project/
-
-# The AI copilot will automatically detect the relevant configuration file
+./gradlew test
 ```
 
-### 2. Verify Configuration
+The project follows Test-Driven Development (TDD) principles and requires 90%+ test coverage. Test files are located in `src/test/java/` mirroring the main source structure.
 
-Your AI copilot will automatically load:
-- **Claude/Cursor**: `CLAUDE.md` → `ai-specs/specs/base-standards.mdc`
-- **GitHub Copilot**: `codex.md` → `ai-specs/specs/base-standards.mdc`
-- **Gemini**: `GEMINI.md` → `ai-specs/specs/base-standards.mdc`
+## 📖 Specs Driven Development
 
-All paths and rules are configured to work seamlessly without manual adjustments.
+This project follows **Specs Driven Development (SDD)** methodology, where comprehensive specifications guide the development process. All specifications are maintained in the `ai-specs/` directory:
 
-## 💡 Usage: Command-Based Development Workflow
-
-The most efficient way to work with this setup is using a command-based workflow:
-
-### Step 1: Enrich the User Story (Optional)
-
-If your user story lacks detail or acceptance criteria, use the **`enrich-us`** command to enhance it:
+### Specification Structure
 
 ```
-/enrich-us SCRUM-10
+ai-specs/
+├── specs/                    # Core specifications
+│   ├── api-spec.yml         # OpenAPI API specification
+│   ├── data-model.md        # Database and domain models
+│   ├── backend-standards.mdc # Backend development standards
+│   ├── frontend-standards.mdc # Frontend development standards
+│   ├── documentation-standards.mdc # Documentation guidelines
+│   ├── base-standards.mdc   # Core development rules
+│   └── development_guide.md # Setup and development guide
+├── changes/                  # Feature implementation plans
+│   └── SCRUM-10_backend.md  # Example implementation plan
+└── .commands/               # Development command templates
 ```
 
-This command analyzes the user story and generates:
-- Detailed acceptance criteria
-- Edge cases and validation rules
-- Technical considerations
-- Testing scenarios
+### Key Benefits
 
-**Note**: Skip this step if your user story already has sufficient depth and clear requirements.
+- **Single Source of Truth**: All specifications centralized in `ai-specs/`
+- **Consistent Development**: Standards ensure uniform code quality
+- **Comprehensive Documentation**: API specs, data models, and standards always current
+- **AI-Assisted Development**: Specifications enable autonomous AI agent implementation
+- **Living Documentation**: Specifications evolve with the project
 
-### Step 2: Plan the Feature
+### Development Workflow
 
-Use **`plan-ticket`** commands to generate detailed implementation plans:
+1. **Specification First**: Features are specified before implementation
+2. **Standards Compliance**: All code follows standards in `ai-specs/specs/`
+3. **Test-Driven**: TDD approach with 90%+ coverage requirement
+4. **Documentation**: API specs and data models updated with code changes
+
+For more information about the development standards and workflow, see:
+- [`AGENTS.md`](./AGENTS.md) - Development rules and guidelines
+- [`CLAUDE.md`](./CLAUDE.md) - Claude/Cursor specific configuration
+- [`ai-specs/specs/base-standards.mdc`](./ai-specs/specs/base-standards.mdc) - Core development principles
+
+## 🚢 Deployment
+
+The application can be deployed to Azure Container Apps with PostgreSQL. For detailed deployment instructions, see [`DEPLOY.md`](./DEPLOY.md).
+
+### Quick Deployment Steps
+
+1. Configure Azure resources (PostgreSQL, Container Apps)
+2. Update `application.yaml` with production database connection
+3. Build the application: `./gradlew clean bootJar`
+4. Build Docker image: `docker build -t landing-backend:0.0.1 .`
+5. Deploy to Azure: `az containerapp up ...`
+
+## 📁 Project Structure
 
 ```
-plan-backend-ticket SCRUM-10
+src/
+├── main/
+│   ├── java/com/inclusive/landing/
+│   │   ├── controller/      # REST controllers
+│   │   ├── service/         # Business logic layer
+│   │   ├── repository/      # Data access layer
+│   │   ├── model/           # Entity models
+│   │   ├── dto/             # Data Transfer Objects
+│   │   └── error/           # Error handling
+│   └── resources/
+│       ├── application.yaml # Application configuration
+│       └── db/migration/    # Flyway migrations
+└── test/
+    └── java/                # Test files
 ```
 
-or
+## 🔧 Configuration
 
-```
-plan-frontend-ticket SCRUM-15
-```
+Main configuration file: `src/main/resources/application.yaml`
 
-This creates a comprehensive, step-by-step implementation plan in `ai-specs/changes/`.
+Key settings:
+- **Server Port**: 8080 (default)
+- **Database**: PostgreSQL with Flyway migrations
+- **Static Resources**: Served from `classpath:/static/`
+- **Logging**: Configured in `application.yaml`
 
-### Step 3: Implement the Feature
+## 📝 Development Standards
 
-Reference the generated plan and execute:
+This project follows strict development standards:
 
-```
-develop-backend @SCRUM-10_backend.md
-```
+- **Small Tasks**: Work incrementally, one step at a time
+- **Test-Driven Development**: Write failing tests first
+- **Type Safety**: Fully typed code
+- **Clear Naming**: Descriptive variables and functions
+- **English Only**: All code, comments, and documentation in English
+- **90%+ Test Coverage**: Comprehensive testing across all layers
 
-or
-
-```
-develop-frontend @SCRUM-15_frontend.md
-```
-
-The AI will follow the plan precisely, implementing each step with TDD, proper testing, and documentation updates.
-
-### Example: Implementing SCRUM-10 (Position Update Feature)
-
-#### Step 1: Enrich the User Story (Optional)
-
-**You say:**
-```
-/enrich-us SCRUM-10
-```
-
-**AI enhances** the user story with detailed acceptance criteria and technical considerations (skip if already detailed).
-
-#### Step 2: Generate the Plan
-
-**You say:**
-```
-/plan-backend-ticket SCRUM-10
-```
-
-**AI generates:**
-- Analyzes the ticket requirements
-- Creates `ai-specs/changes/SCRUM-10_backend.md` with:
-  - Architecture context
-  - Step-by-step implementation instructions
-  - Complete test specifications (validation, service, controller layers)
-  - API documentation updates
-  - Validation rules
-  - Error handling strategies
-
-#### Step 3: Implement Following the Plan
-
-**You say:**
-```
-/develop-backend @SCRUM-10_backend.md
-```
-
-**AI executes:**
-1. Creates feature branch `feature/SCRUM-10-backend`
-2. Implements validation function with comprehensive rules
-3. Implements service layer with business logic
-4. Implements controller with HTTP handling
-5. Adds route configuration
-6. Writes 90%+ test coverage across all layers
-7. Updates API documentation
-8. Runs tests and verifies implementation
-9. Commits and pushes (configurable to wait until confirmation)
-
-### 📝 Demo Enriched User Story
-
-Check out **`ai-specs/changes/SCRUM-10-Position-Update.md`** for a complete example of what an enriched user story looks like. This comprehensive document includes:
-
-- **User Story**: Clear description with persona, goal, and benefit
-- **Technical Specification**: Complete technical implementation details
-- **API Endpoint Documentation**: Request/response formats, status codes, and error handling
-- **Database Fields**: All updateable fields with validation rules
-- **Validation Rules**: Server-side and client-side validation requirements
-- **Security Requirements**: Authentication, authorization, and input sanitization needs
-- **Testing Requirements**: Unit tests, integration tests, and manual testing scenarios
-- **Acceptance Criteria**: Clear, testable acceptance criteria for each requirement
-- **Non-Functional Requirements**: Usability, performance, reliability, and security standards
-- **Definition of Done**: Complete checklist for feature completion
-
-This enriched document transforms a simple user story into a detailed specification that provides all the context needed for autonomous implementation by AI agents or developers.
-
-### 📋 Demo Implementation Plan
-
-Check out **`ai-specs/changes/SCRUM-10_backend.md`** for a complete example of what a feature implementation plan looks like. This comprehensive plan includes:
-
-- **Architecture Context**: Layers, components, and dependencies
-- **Step-by-Step Instructions**: Validation → Service → Controller → Routes → Tests → Documentation
-- **Complete Code Examples**: Full implementations for each layer
-- **Comprehensive Test Specifications**: 90%+ coverage requirements with example tests
-- **Error Handling**: HTTP status codes, error messages, and response formats
-- **Business Rules**: Validation requirements and constraints
-- **Testing Checklist**: Unit, manual, integration, and regression tests
-
-This plan demonstrates how detailed and actionable the generated plans are, enabling autonomous implementation by AI agents.
-
-## 📖 Core Development Rules
-
-All development follows principles defined in `ai-specs/specs/base-standards.mdc`:
-
-### Key Principles
-
-1. **Small Tasks, One at a Time**: Baby steps, never skip ahead
-2. **Test-Driven Development (TDD)**: Write failing tests first
-3. **Type Safety**: Fully typed code (TypeScript)
-4. **Clear Naming**: Descriptive variables and functions
-5. **English Only**: All code, comments, documentation, and messages in English
-6. **90%+ Test Coverage**: Comprehensive testing across all layers
-7. **Incremental Changes**: Focused, reviewable modifications
-
-### Specific Standards
-
-- **Backend Standards**: `ai-specs/specs/backend-standards.mdc`
-  - API development patterns
-  - Database best practices
-  - Security guidelines
-  - Testing requirements
-
-- **Frontend Standards**: `ai-specs/specs/frontend-standards.mdc`
-  - React component patterns
-  - UI/UX guidelines
-  - State management
-  - Component testing
-
-- **Documentation Standards**: `ai-specs/specs/documentation-standards.mdc`
-  - Technical documentation structure
-  - API documentation (OpenAPI)
-  - Code documentation
-  - Maintenance guidelines
-
-## 🎯 Benefits
-
-### For Developers
-- ✅ **Consistent Code Quality**: AI follows the same standards every time
-- ✅ **Comprehensive Testing**: Automatic 90%+ coverage across all layers
-- ✅ **Complete Documentation**: API specs updated automatically
-- ✅ **Faster Onboarding**: New team members reference the same rules
-- ✅ **Reduced Review Time**: Code follows established patterns
-
-### For Teams
-- ✅ **Copilot Flexibility**: Team members can use their preferred AI tool
-- ✅ **Knowledge Preservation**: Standards documented, not in people's heads
-- ✅ **Quality Consistency**: Same standards regardless of who (or what) writes code
-- ✅ **Easier Code Reviews**: Clear expectations and patterns
-- ✅ **Scalable Practices**: Standards scale with the team
-
-### For Projects
-- ✅ **Maintainable Codebase**: Clean architecture and clear separation of concerns
-- ✅ **Production-Ready Code**: TDD, error handling, and validation built-in
-- ✅ **Living Documentation**: API specs and data models always current
-- ✅ **Faster Feature Development**: Autonomous AI implementation from plans
-- ✅ **Lower Technical Debt**: Best practices enforced from day one
-
-## 🔧 Customization
-
-### Adapting to Your Project
-
-1. **Update `base-standards.mdc`**: Modify core principles to match your needs
-2. **Add Domain Rules**: Include project-specific business rules
-3. **Extend Standards**: Add technology-specific guidelines (Vue, Angular, etc.)
-4. **Create Templates**: Add prompt templates in `prompts.md`
-5. **Link Resources**: Reference your project's specific documentation
-
-### Maintaining Standards
-
-- **Single Source of Truth**: Always update `base-standards.mdc` first
-- **Version Control**: Track changes to standards like code
-- **Team Review**: Standards changes should be reviewed like pull requests
-- **Documentation**: Keep examples current with actual implementation
-
-## 📚 Technical context
-
-### Reference Examples (from LIDR Project)
-
-The following files are included as **reference examples** from the LIDR project. You should create your own versions tailored to your specific project:
-
-- **API Specification**: `ai-specs/specs/api-spec.yml` (OpenAPI 3.0 format)
-  - *Create your own API spec documenting your project's endpoints*
-- **Data Models**: `ai-specs/specs/data-model.md` (Database schemas, domain models)
-  - *Document your database structure and domain entities*
-- **Development Guide**: `ai-specs/specs/development_guide.md` (Setup, workflows)
-  - *Write setup instructions specific to your tech stack*
-
+For detailed standards, see:
+- [`ai-specs/specs/backend-standards.mdc`](./ai-specs/specs/backend-standards.mdc)
+- [`ai-specs/specs/base-standards.mdc`](./ai-specs/specs/base-standards.mdc)
 
 ## 🤝 Contributing
 
-When contributing to the standards:
+When contributing to this project:
 
-1. Update `base-standards.mdc` (single source of truth)
-2. Test with multiple AI copilots to ensure compatibility
-3. Update examples in `changes/` folder if needed
-4. Document breaking changes clearly
-5. Follow the same standards you're defining!
+1. Follow the development standards in `ai-specs/specs/`
+2. Write tests for all new functionality (TDD)
+3. Update API documentation in `ai-specs/specs/api-spec.yml`
+4. Update data model documentation if schema changes
+5. Ensure 90%+ test coverage
+6. Use English for all code, comments, and documentation
 
 ## 📄 License
 
-Copyright (c) 2025 LIDR.co
+Copyright (c) 2025 Sistematización Educación Inclusiva. Todos los derechos reservados.
 Licensed under the MIT License
-
-**English:**
-
-The content of this repository is part of the AI4Devs program by LIDR.co. If you want to learn to code with AI like the pros and get more templates and resources like these, you can find all the information on the official website: https://lidr.co/ia-devs
-
-**Español:**
-
-El contenido de este repositorio es parte del programa AI4Devs de LIDR.co. Si quieres aprender a programar con IA como los pros, y obtener más plantillas y recursos como estos, puedes encontrar toda la información en la página oficial: https://lidr.co/ia-devs
 
 ---
 
-**Made with 🤖 by the LIDR community**
+**Made with 🤖 by the Universidad de Manizales**
 
-For questions, issues, or suggestions, visit [LIDR.co](https://lidr.co/ia-devs)
-
+For questions, issues, or suggestions, visit [Juan Rojas Software Engineer](https://www.linkedin.com/in/juan-rojas-software-engineer/)
